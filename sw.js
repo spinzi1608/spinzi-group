@@ -1,4 +1,4 @@
-/* SPINZI GROUP — Service Worker (PWA) v7.11
+/* SPINZI GROUP — Service Worker (PWA) v7.12
    Estrategia: CACHE-FIRST para la app (abre al instante, aunque estés fuera de la red local)
    y actualiza en segundo plano cuando hay internet. Los datos NUNCA se cachean (van por nube/local). */
 const CACHE = 'spinzi-v7';
