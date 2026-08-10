@@ -1613,7 +1613,7 @@ return out;
 }
 function mergeDels(a,b){var out={};a=a||{};b=b||{};Object.keys(a).forEach(function(k){out[k]=Object.assign({},a[k])});Object.keys(b).forEach(function(k){out[k]=out[k]||{};for(var id in b[k]){if(!(id in out[k])||b[k][id]>out[k][id])out[k][id]=b[k][id]}});return out}
 function mergeCfg(lc,rc){
-var lt=+lc.updatedTs||0,rt=+rc.updatedTs||0;
+var lt=+lc.updatedTs||0,rt=+rc.updatedTs||+rc.ts||0; /* v7.16: el payload lleva la fecha en cfg.ts — antes rt era siempre 0 y la config NUNCA se propagaba entre equipos */
 var lk=['ghToken','syncId','syncProv','syncTs','syncFrom','syncHist','lastBackup','lastHash','cloudHash','lanHash','cloudCooldown','devices','tema','light','sonido','diasAviso','cajaObligatoria'];
 var out={};
 function pick(src){for(var k in src){if(lk.indexOf(k)>=0||k==='_dels'||k==='updatedTs')continue;if(!(k in out))out[k]=src[k]}}
