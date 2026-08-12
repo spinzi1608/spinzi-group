@@ -498,13 +498,18 @@ var _pub=(_cfg.pubUrl||'').trim()||'https://spinzi1608.github.io/spinzi-group';
 var _qrd=_pub.replace(/\/+$/,'')+'/index.html'+_h;
 window._qrData=_qrd;
 var _tokWarn=_cfg.ghToken?'':'<div class="cres" style="border-color:rgba(245,182,10,.35)"><p style="font-size:.76rem;color:var(--yellow)">🔑 <b>Falta conectar el token de GitHub</b> (☁️ Sync → 🔗 Conectar). Sin token, el QR abre la app pero el celular <b>no puede leer la nube privada</b> — pegá el token en el celular la primera vez (☁️ Sync → 🔑 Token → 🔗 Conectar).</p></div>';
-_qrh='<div class="det-sec">🌍 QR INTERNET — la app que se actualiza sola</div><p style="font-size:.78rem;color:var(--muted);line-height:1.7">Escanéá este QR con la cámara del celular (con internet, cualquier red): se abre la app publicada, se configura <b>sola</b> y tocando «Agregar a pantalla de inicio» queda instalada. Funciona <b>sin internet</b> (offline) y <b>se actualiza sola</b> desde cualquier lugar — ya no depende del Wi-Fi de la PC. <b>No uses «Descargar»</b>: tocá «Agregar a pantalla de inicio».</p>'+_tokWarn+'<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><div style="border-radius:12px;border:1px solid var(--border);background:#fff;padding:6px;width:150px;height:150px">'+qrSVG(_qrd,300)+'</div><button class="btn btn-gold" onclick="qrFull()" style="white-space:nowrap">🔍 Agrandar QR<br><span style="font-size:.68rem;font-weight:600">pantalla completa</span></button></div><p style="font-size:.7rem;color:var(--muted);margin-top:6px;word-break:break-all">Si no podés escanear, abrí este enlace en el celular o mandátelo por WhatsApp: <b>'+esc(_qrd)+'</b></p>';
+_qrh='<div class="det-sec">🌍 QR INTERNET — la app que se actualiza sola</div><p style="font-size:.78rem;color:var(--muted);line-height:1.7">Escanéá este QR con la cámara del celular (con internet, cualquier red): se abre la app publicada, se configura <b>sola</b> y tocando «Agregar a pantalla de inicio» queda instalada. Funciona <b>sin internet</b> (offline) y <b>se actualiza sola</b> desde cualquier lugar — ya no depende del Wi-Fi de la PC. <b>No uses «Descargar»</b>: tocá «Agregar a pantalla de inicio».</p>'+_tokWarn+'<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><div style="border-radius:12px;border:1px solid var(--border);background:#fff;padding:6px;width:160px;height:160px;box-sizing:border-box;display:flex;align-items:center;justify-content:center">'+qrSVG(_qrd,150)+'</div><div style="flex:1;min-width:200px"><button class="btn btn-gold" onclick="qrFull()">🔍 Agrandar QR (pantalla completa)</button><p style="font-size:.7rem;color:var(--muted);margin-top:6px;word-break:break-all">Si no podés escanear: <b>'+esc(_qrd)+'</b></p><button class="btn btn-outline btn-sm" style="margin-top:6px" onclick="copyQrLink()">📋 Copiar enlace</button></div></div>';
 }
 document.getElementById('srv-ips').innerHTML='<div class="det-row"><span>💻 Esta PC</span><b>http://localhost:8080</b></div>'+ips+_qrh||'<p>Sin IP de red detectada</p>';
 }).catch(function(){document.getElementById('srv-ips').innerHTML='<p style="color:var(--red)">No se pudo consultar la IP del servidor.</p>'})
 }
 }
-function qrFull(){var d=window._qrData;if(!d){toast('Primero abrí «🌐 Servidor + IP»','error');return}document.getElementById('qrfull-box').innerHTML='<div style="width:min(88vw,76vh);height:min(88vw,76vh);border-radius:18px;background:#fff;padding:14px;box-shadow:0 0 60px rgba(212,175,55,.3)">'+qrSVG(d,1200)+'</div><p style="color:var(--muted);font-size:.85rem;word-break:break-all;max-width:92vw;text-align:center">'+esc(d)+'</p><button class="btn btn-gold" onclick="copyQrLink()">📋 Copiar enlace</button>';openModal('modal-qrfull')}
+function qrFull(){var d=window._qrData;if(!d){toast('Primero abrí «🌐 Servidor + IP»','error');return}
+/* v7.18 — el QR grande se adapta al viewport real (antes 1200px fijos = más grande que la pantalla) */
+var sz=Math.min(window.innerWidth*0.82,window.innerHeight*0.7,560);
+var box=document.getElementById('qrfull-box');
+box.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px;width:100%"><div style="width:'+sz+'px;height:'+sz+'px;max-width:92vw;max-height:70vh;border-radius:16px;background:#fff;padding:12px;box-shadow:0 0 60px rgba(212,175,55,.35);box-sizing:border-box">'+qrSVG(d,sz-24)+'</div><p style="color:var(--muted);font-size:.85rem;word-break:break-all;max-width:92vw;text-align:center;margin:0">'+esc(d)+'</p><button class="btn btn-gold" onclick="copyQrLink()">📋 Copiar enlace</button></div>';
+openModal('modal-qrfull')}
 function copyQrLink(){if(navigator.clipboard&&window._qrData){navigator.clipboard.writeText(window._qrData).then(function(){toast('📋 Enlace copiado')}).catch(function(){toast('No se pudo copiar','error')})}else toast('No se pudo copiar','error')}
 /* === BACKUP AUTOMÁTICO === */
 function backupAuto(){
@@ -873,10 +878,12 @@ return best;
 }
 function qrSVG(text,sizePx){
 var M=qrMatrix(text);if(!M)return'';
-var n=M.length,cell=Math.max(1,Math.floor(sizePx/n));
+var n=M.length,cell=Math.max(1,Math.floor((sizePx||200)/n));
+var total=n*cell;
 var d='';
 for(var r=0;r<n;r++){for(var c=0;c<n;c++){if(M[r][c])d+='M'+(c*cell)+' '+(r*cell)+'h'+cell+'v'+cell+'h-'+cell+'z'}}
-return'<svg xmlns="http://www.w3.org/2000/svg" width="'+sizePx+'" height="'+sizePx+'" viewBox="0 0 '+sizePx+' '+sizePx+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#ffffff"/><path d="'+d+'" fill="#000000"/></svg>';
+/* v7.18 — el SVG se ESCALA al 100% del contenedor (antes usaba tamaño fijo y desbordaba/centraba mal) */
+return'<svg xmlns="http://www.w3.org/2000/svg" width="'+total+'" height="'+total+'" viewBox="0 0 '+total+' '+total+'" style="width:100%;height:100%;display:block;margin:auto" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#ffffff"/><path d="'+d+'" fill="#000000"/></svg>';
 }
 function b64url(s){try{return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}catch(e){return''}}
 function afipQRPayload(v){
