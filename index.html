@@ -1682,7 +1682,7 @@ function mergeRemote(d,from,silent){
 if(!d||!d.ventas)return;
 var lc=DB.cfg(),n=d.cfg||{};
 var mc=mergeCfg(lc,n);
-var devs=devMerge((n.devices||{}),lc.devices||{});devs[DEV]=Date.now();
+var devs=devMerge((n.devices||{}),lc.devices||{});devs[DEV]=+lc.devices[DEV]||Date.now();
 mc.devices=devs;mc.syncTs=Date.now();mc.syncFrom=from;
 _applying=true;
 DB.setCfg(mc);
