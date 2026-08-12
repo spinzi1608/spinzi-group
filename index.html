@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -84,7 +84,7 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.84rem;vert
 .chat-user{background:var(--emerald);color:#fff;margin-left:auto}
 .chat-ai{background:var(--input);border:1px solid var(--border);white-space:pre-wrap}
 .chipq{padding:8px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:.78rem;color:var(--muted)}
-.scan-ov{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.scan-ov{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow:auto}
 .scan-ov.active{display:flex}
 #scan-video{width:min(90vw,480px);border-radius:16px;border:2px solid var(--gold)}
 .alert-row{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:10px;background:var(--input);margin-bottom:8px;font-size:.84rem;cursor:pointer}
@@ -135,7 +135,7 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.84rem;vert
 <div class="modal-ov" id="lock"><div class="modal" style="max-width:340px;text-align:center"><div class="mtitle" style="padding-right:0">🔒 SPINZI GROUP</div><div id="acc-sec" style="display:none"><p style="font-size:.8rem;color:var(--muted)">🔐 Ingresá el <b>código de acceso</b></p><div id="acc-dots" style="font-size:1.3rem;letter-spacing:10px;margin:16px 0">······</div><div id="acc-hint" style="font-size:.7rem;color:var(--muted);margin-bottom:10px"></div><div class="pad" id="acc-pad"></div></div><div id="pin-sec" style="display:none"><p style="font-size:.8rem;color:var(--muted)">Ingresá tu PIN</p><div id="pin-dots" style="font-size:1.3rem;letter-spacing:10px;margin:16px 0">····</div><div id="pin-hint" style="font-size:.7rem;color:var(--muted);margin-bottom:10px"></div><div class="pad" id="pad"></div><div id="pin-nopin" style="display:none;margin-top:14px"><button class="btn btn-outline" style="width:100%" onclick="pinOk()">🔓 Entrar sin PIN</button><p style="font-size:.62rem;color:var(--muted);margin-top:8px">Todavía no hay PIN configurado. Entrá y crealo en ⚙️ Configuración → «PIN maestro». Para empleados: el PIN se carga en su ficha en Empleados.</p></div></div><div id="lock-wait" style="display:none;padding:26px 0"><p style="font-size:.8rem;color:var(--muted)">🔐 Verificando acceso…</p></div></div></div>
 
 <div class="scan-ov" id="modal-scan"><video id="scan-video" playsinline muted></video><p style="color:#EAC96B;font-size:.85rem">📷 Apuntá al código</p><button class="btn btn-danger" onclick="stopScan()">✕ Cancelar</button></div>
-<div class="scan-ov" id="modal-qrfull" style="background:rgba(3,6,12,.96)"><p style="color:var(--gold2);font-size:1.05rem;font-weight:800;letter-spacing:.5px">📲 Escaneá con la cámara del celular</p><div id="qrfull-box" style="display:flex;flex-direction:column;align-items:center;gap:18px;padding:10px"></div><button class="btn btn-danger" onclick="closeModal('modal-qrfull')">✕ Cerrar</button></div>
+<div class="scan-ov" id="modal-qrfull" style="background:rgba(3,6,12,.96);justify-content:flex-start;padding:20px 12px 34px"><div id="qrfull-box" style="display:flex;flex-direction:column;align-items:center;gap:18px;padding:10px;width:100%"></div><button class="btn btn-danger" onclick="closeModal('modal-qrfull')" style="position:fixed;top:12px;right:12px;z-index:2100;border-radius:50%;width:44px;height:44px;min-width:0;padding:0;font-size:1.15rem;line-height:1">✕</button></div>
 
 <div class="modal-ov" id="modal-search"><div class="modal" style="max-width:560px"><div class="mtitle">🔍 Búsqueda Global (Ctrl+K)</div><input class="fc" id="gs-q" placeholder="Buscar en todo..." oninput="gsRun()"><div id="gs-res" style="margin-top:12px;max-height:50vh;overflow-y:auto"></div></div></div>
 
@@ -550,7 +550,7 @@ document.getElementById('srv-ips').innerHTML=base||'<p>Sin IP de red detectada</
 }).catch(function(){document.getElementById('srv-ips').innerHTML='<p style="color:var(--red)">No se pudo consultar la IP del servidor.</p>'})
 }
 }
-function qrFull(){var d=window._qrData;if(!d){toast('Primero abrí «🌐 Servidor + IP»','error');return}document.getElementById('qrfull-box').innerHTML='<div style="background:#fff;border-radius:18px;padding:14px;display:inline-block;box-shadow:0 0 60px rgba(212,175,55,.3)">'+qrHTML(d,1100)+'</div><p style="color:var(--muted);font-size:.85rem;word-break:break-all;max-width:92vw;text-align:center">'+esc(d)+'</p><button class="btn btn-gold" onclick="copyQrLink()">📋 Copiar enlace</button>';openModal('modal-qrfull')}
+function qrFull(){var d=window._qrData;if(!d){toast('Primero abrí «🌐 Servidor + IP»','error');return}document.getElementById('qrfull-box').innerHTML='<div style="background:#fff;border-radius:18px;padding:14px;display:inline-block;box-shadow:0 0 60px rgba(212,175,55,.3)">'+qrHTML(d,560)+'</div><p style="color:var(--muted);font-size:.85rem;word-break:break-all;max-width:92vw;text-align:center">'+esc(d)+'</p><button class="btn btn-gold" onclick="copyQrLink()">📋 Copiar enlace</button>';openModal('modal-qrfull')}
 /* v1.0 — 📲 QR DE VINCULACIÓN DEL CELULAR: siempre disponible (doble clic o servidor).
    Genera el enlace #s= (token + código de nube) sobre la app publicada en internet:
    el celular escanea, queda configurado SOLO y accede a los datos en tiempo real desde cualquier lugar. */
@@ -567,12 +567,12 @@ openModal('modal-qrfull');return;
 var _h='#s='+btoa(JSON.stringify({t:c.ghToken,id:c.syncId,p:c.syncProv||'github'}));
 var _qrd=_pub.replace(/\/+$/,'')+'/index.html'+_h;
 window._qrData=_qrd;
-w.innerHTML='<p style="color:var(--gold2);font-size:1.05rem;font-weight:800;letter-spacing:.5px">📲 VINCULÁ EL CELULAR — funciona en la calle, con la PC apagada</p><div style="background:#fff;border-radius:18px;padding:14px;display:inline-block;box-shadow:0 0 60px rgba(212,175,55,.3)">'+qrHTML(_qrd,1100)+'</div><p style="color:var(--muted);font-size:.85rem;word-break:break-all;max-width:92vw;text-align:center">'+esc(_qrd)+'</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="btn btn-gold" onclick="copyQrLink()">📋 Copiar enlace</button><button class="btn btn-outline" onclick="closeModal(\'modal-qrfull\')">✕ Cerrar</button></div><p style="color:var(--muted);font-size:.8rem;max-width:480px;text-align:center">Escaneá con la cámara del celular → queda vinculado <b>solo</b> (token + nube) e instalá la app con «Agregar a pantalla de inicio». Los datos se sincronizan <b>cada 60 segundos</b> en tiempo real por la nube.</p>';
+w.innerHTML='<p style="color:var(--gold2);font-size:1.05rem;font-weight:800;letter-spacing:.5px">📲 VINCULÁ EL CELULAR — funciona en la calle, con la PC apagada</p><div style="background:#fff;border-radius:18px;padding:14px;display:inline-block;box-shadow:0 0 60px rgba(212,175,55,.3)">'+qrHTML(_qrd,560)+'</div><p style="color:var(--muted);font-size:.85rem;word-break:break-all;max-width:92vw;text-align:center">'+esc(_qrd)+'</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="btn btn-gold" onclick="copyQrLink()">📋 Copiar enlace</button><button class="btn btn-outline" onclick="closeModal(\'modal-qrfull\')">✕ Cerrar</button></div><p style="color:var(--muted);font-size:.8rem;max-width:480px;text-align:center">Escaneá con la cámara del celular → queda vinculado <b>solo</b> (token + nube) e instalá la app con «Agregar a pantalla de inicio». Los datos se sincronizan <b>cada 60 segundos</b> en tiempo real por la nube.</p>';
 openModal('modal-qrfull');
 }
 /* v1.0: QR generado LOCALMENTE (sin depender de api.qrserver.com ni de internet) — si por algún motivo
    el texto es demasiado largo para el generador interno, usa el servicio externo como respaldo. */
-function qrHTML(text,w){var svg=qrSVG(text,w);if(svg&&svg.indexOf('<path')>=0)return'<div style="width:'+Math.min(w,600)+'px;max-width:88vw">'+svg.replace('width="'+w+'"','width="100%"').replace('height="'+w+'"','height:auto')+'</div>';return'<img src="https://api.qrserver.com/v1/create-qr-code/?size=640x640&data='+encodeURIComponent(text)+'" alt="QR" style="border-radius:12px;border:1px solid var(--border);background:#fff;padding:6px;width:min(88vw,76vh);height:min(88vw,76vh)">'}
+function qrHTML(text,w){var svg=qrSVG(text,w);if(svg&&svg.indexOf('<path')>=0)return'<div style="width:min('+Math.min(w,560)+'px,88vw,52vh)">'+svg.replace('width="'+w+'"','width="100%"').replace('height="'+w+'"','height="auto"')+'</div>';return'<img src="https://api.qrserver.com/v1/create-qr-code/?size=640x640&data='+encodeURIComponent(text)+'" alt="QR" style="border-radius:12px;border:1px solid var(--border);background:#fff;padding:6px;width:min(88vw,52vh);height:min(88vw,52vh)">'}
 function copyQrLink(){if(navigator.clipboard&&window._qrData){navigator.clipboard.writeText(window._qrData).then(function(){toast('📋 Enlace copiado')}).catch(function(){toast('No se pudo copiar','error')})}else toast('No se pudo copiar','error')}
 /* === BACKUP AUTOMÁTICO === */
 function backupAuto(){
