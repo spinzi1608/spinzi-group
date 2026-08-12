@@ -1606,7 +1606,16 @@ function hashStr(s){var h=5381,i=s.length;while(i--)h=((h<<5)-h)^s.charCodeAt(i)
 /* v7.22 — SELLO DE DATOS: código corto calculado de TODOS tus datos actuales. Es la prueba de
    que la conexión es REAL: si dos equipos muestran el MISMO sello, están viendo exactamente los
    mismos datos (misma nube). Si difieren, no están sincronizando. Se actualiza con cada cambio. */
-function dataStamp(){try{var d=JSON.stringify({c:DB.cfg(),a:DB.get('articulos'),v:DB.get('ventas'),l:DB.get('clientes'),p:DB.get('proveedores'),c2:DB.get('caja')});return hashStr(d).slice(0,6).toUpperCase()}catch(e){return'····'}}
+function dataStamp(){try{
+/* v7.22 — el sello se calcula SOLO de los datos reales (no de config volátil como syncTs/devices,
+   que cambian por equipo y harían que nunca coincidiera aunque estén sincronizados). Los arrays se
+   ORDENAN por id antes de hashear: así el orden no influye y dos equipos sincronizados muestran
+   SIEMPRE el mismo sello. */
+var ord=function(arr){return(arr||[]).slice().sort(function(a,b){return String(a.id).localeCompare(String(b.id))})};
+var c=DB.cfg();
+var estab={code:c.accessCode,pin:c.pin,nombre:c.nombre,cuit:c.cuit,pv:c.pv,nextFactura:c.nextFactura,syncId:c.syncId};
+var d=JSON.stringify({c:estab,a:ord(DB.get('articulos')),v:ord(DB.get('ventas')),l:ord(DB.get('clientes')),p:ord(DB.get('proveedores')),c2:ord(DB.get('caja')),o:ord(DB.get('ofertas')),e:ord(DB.get('eventos'))});
+return hashStr(d).slice(0,6).toUpperCase()}catch(e){return'····'}}
 function srvHash(){return hashStr(JSON.stringify(srvPayload()))}
 function srvPost(s){fetT(fetch('/api/datos',{method:'POST',headers:{'Content-Type':'application/json'},body:s}),10000).catch(function(){})}
 function locTs(){return +DB.cfg().updatedTs||0}
