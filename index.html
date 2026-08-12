@@ -125,7 +125,7 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.84rem;vert
 <div class="main">
 <header class="top">
 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><div class="crumb" id="crumb">Panel Principal</div><span class="chip" id="chipDate"></span><span class="chip" id="sync-badge" style="display:none" title="Estado de sincronización"></span><span class="chip" id="dev-badge" style="display:none;cursor:pointer" title="Dispositivos conectados"></span></div>
-<div><button class="icon-btn" onclick="openSearch()">🔍</button><button class="icon-btn" onclick="openConfig()">⚙️</button><button class="icon-btn" onclick="openBackup()">💾</button><button class="icon-btn" title="🔑 Iniciar sesión / cambiar usuario" onclick="cerrarSesion()">🔑</button><button class="icon-btn" id="themeBtn" onclick="toggleTheme()">🌙</button></div>
+<div><button class="icon-btn" onclick="openSearch()">🔍</button><button class="icon-btn" onclick="openConfig()">⚙️</button><button class="icon-btn" onclick="openBackup()">💾</button><button class="icon-btn" onclick="promptInstall()" title="📲 Instalar app en el celular (pantalla de inicio)">📲</button><button class="icon-btn" title="🔑 Iniciar sesión / cambiar usuario" onclick="cerrarSesion()">🔑</button><button class="icon-btn" id="themeBtn" onclick="toggleTheme()">🌙</button></div>
 </header>
 <div id="pages"></div>
 </div>
@@ -1774,8 +1774,18 @@ el.onclick=function(){showPage('sync')};
 var _deferredPrompt=null;
 try{window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();_deferredPrompt=e})}catch(e){}
 function promptInstall(){
-if(_deferredPrompt){_deferredPrompt.prompt();_deferredPrompt.userChoice&&_deferredPrompt.userChoice.then(function(){_deferredPrompt=null})}
-else{toast('📲 En el navegador: menú ⋮ → «Instalar aplicación» (Android) o Compartir ⬆️ → «Agregar a pantalla de inicio» (iPhone)','warn')}
+/* v7.19 — si el navegador ofrece instalar nativamente, lo usamos; si no (o si estamos en la
+   versión local), mostramos la guía clara con la URL de internet para el celular. */
+if(_deferredPrompt){_deferredPrompt.prompt();_deferredPrompt.userChoice&&_deferredPrompt.userChoice.then(function(){_deferredPrompt=null});return}
+var h=location.hostname||'';
+var esLocal=/^(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h);
+var pub=(DB.cfg().pubUrl||'').trim()||'https://spinzi1608.github.io/spinzi-group';
+var cuerpo='';
+if(esLocal){cuerpo='<div class="cres" style="border-color:rgba(245,182,10,.4)"><p style="font-size:.85rem;line-height:1.8">⚠️ <b>Estás en la versión LOCAL</b> (solo funciona con el Wi-Fi de la PC).<br>Para que la app funcione <b>desde cualquier lugar</b> (datos móviles, sin Wi-Fi local), instalá la versión de <b>INTERNET</b>:</p></div>'}
+var dlg='<div class="card" style="margin-top:10px"><h3>📲 Instalar como app en el celular (una sola vez)</h3><p style="font-size:.85rem;line-height:1.9">1️⃣ En el <b>celular</b>, abrí el navegador (<b>Chrome</b> en Android o <b>Safari</b> en iPhone).<br>2️⃣ Entrá a:<br><b style="font-size:.95rem;word-break:break-all;color:var(--gold2)">'+esc(pub)+'</b><br>3️⃣ Android: menú <b>⋮</b> → <b>«Instalar aplicación»</b> / «Agregar a pantalla de inicio».<br>&nbsp;&nbsp;iPhone: botón <b>Compartir ⬆️</b> → <b>«Agregar a pantalla de inicio»</b>.<br>4️⃣ Te va a pedir el <b>código de acceso (6392)</b> → <b>PIN (1234)</b> — y queda instalada para siempre.</p>'+(esLocal?'<p style="font-size:.78rem;color:var(--yellow);line-height:1.7;margin-top:8px">📌 <b>Importante:</b> borrá el acceso directo viejo del celular (mantené el dedo sobre el ícono → Quitar) y usá este nuevo — el viejo apunta a la red local y no funciona fuera de casa.</p>':'')+'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-gold" onclick="navigator.clipboard.writeText(\''+pub+'\');toast(\'📋 URL copiada\')">📋 Copiar URL</button><a class="btn btn-primary" href="'+pub+'" target="_blank" rel="noopener">🌍 Abrir versión de internet</a></div></div>';
+var bb=document.getElementById('pub-body');
+if(bb){bb.innerHTML=cuerpo+dlg;openModal('modal-publicar')}
+else{toast('📲 Android: menú ⋮ → «Instalar aplicación» · iPhone: Compartir ⬆️ → «Agregar a pantalla de inicio»','warn')}
 }
 /* Publicar la app gratis en GitHub Pages para que el celular entre desde cualquier lugar (sin depender de la PC ni del Wi-Fi local) */
 function openPublicar(){
@@ -1826,6 +1836,9 @@ document.getElementById('chipDate').textContent=new Date().toLocaleDateString('e
 pinLock();
 backupAuto();
 checkUpdate();
+/* v7.19 — si la app se abrió desde la versión LOCAL (localhost/IP) ya instalada como acceso directo,
+   avisamos una vez que conviene instalar la versión de INTERNET (funciona sin Wi-Fi local). */
+(function(){try{var _hn=location.hostname||'';var _esLocal=/^(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(_hn);var _stand=window.matchMedia&&matchMedia('(display-mode: standalone)').matches;if(_esLocal&&_stand&&!localStorage.getItem('sz_aviso_local')){localStorage.setItem('sz_aviso_local','1');setTimeout(function(){promptInstall()},2500)}}catch(e){}})();
 srvInit(function(srvHasData){if(!srvHasData)demoAuto();showPage('dashboard');setTimeout(function(){syncAll(true);updSyncBadge()},1500)});
 /* SYNC AUTOMÁTICO: cada 60 s mientras está visible + al volver a la pestaña + al reconectar + badge */
 setInterval(function(){if(!document.hidden)syncAll(true)},60000);
