@@ -1,8 +1,8 @@
-/* SPINZI GROUP — Service Worker (PWA) v7.22
+/* SPINZI GROUP — Service Worker (PWA) v7.23
    Estrategia: CACHE-FIRST para la app (abre al instante, aunque estés fuera de la red local)
    y actualiza en segundo plano cuando hay internet. Los datos NUNCA se cachean (van por nube/local).
    v7.22: íconos con nombre nuevo (-v722) para que el navegador NO pueda servir el logo viejo cacheado. */
-const CACHE = 'spinzi-v7-22';
+const CACHE = 'spinzi-v7-23';
 const STATIC = [
   './logo.png',
   './manifest.webmanifest',
