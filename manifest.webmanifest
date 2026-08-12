@@ -1,7 +1,7 @@
 {
   "name": "SPINZI GROUP — Sistema Ejecutivo",
   "short_name": "SPINZI GROUP",
-  "description": "Gestión integral ejecutiva: POS, ventas, stock, clientes, caja, empleados, impuestos y más.",
+  "description": "Gestión integral ejecutiva de Spinzi Group: POS, ventas, stock, clientes, caja, empleados, impuestos y más.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
