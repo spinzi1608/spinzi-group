@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#070C16">
-<title>SPINZI GROUP — Caza Pro v7.28 EXECUTIVE</title>
+<title>SPINZI GROUP — Caza Pro v7.29 EXECUTIVE</title>
 <!-- v7.24 — favicon PNG del logo nuevo (icon-192-v724.png): nombre nuevo → imposible que quede viejo por caché -->
 <link rel="icon" type="image/png" href="icon-192-v724.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -121,7 +121,7 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.84rem;vert
 <div><h1>SPINZI GROUP</h1><p id="brandSlogan">Compañía Prestadora de Servicios Múltiples &amp; Soluciones Integrales</p></div>
 </div>
 <nav id="nav"></nav>
-<div class="sb-foot">v7.28 EXECUTIVE • © Carlos Spinzi — SPINZI GROUP 🇦🇷</div>
+<div class="sb-foot">v7.29 EXECUTIVE • © Carlos Spinzi — SPINZI GROUP 🇦🇷</div>
 </aside>
 <div class="main">
 <header class="top">
@@ -364,7 +364,7 @@ function logH(a){var h=DB.get('historial');h.push({f:new Date().toLocaleString('
 function verHistorial(){var h=DB.get('historial').slice(-30).reverse();document.getElementById('det-title').textContent='📜 Historial';document.getElementById('det-body').innerHTML=h.length?h.map(function(x){return'<div class="det-row"><span>'+esc(x.f)+'<br><span style="font-size:.7rem;color:var(--muted)">'+esc(x.d)+'</span></span><b>'+esc(x.a)+'</b></div>'}).join(''):'<p>Sin movimientos.</p>';openModal('modal-detalle')}
 
 /* === BRANDING EJECUTIVO === */
-function updBranding(){var c=DB.cfg();var n=c.nombre||'SPINZI GROUP';var s=c.slogan||'Compañía Prestadora de Servicios Múltiples & Soluciones Integrales';document.title=n+' — Caza Pro v7.28 EXECUTIVE';var h1=document.querySelector('.sb-head h1');if(h1)h1.textContent=n;var p=document.getElementById('brandSlogan');if(p)p.textContent=s}
+function updBranding(){var c=DB.cfg();var n=c.nombre||'SPINZI GROUP';var s=c.slogan||'Compañía Prestadora de Servicios Múltiples & Soluciones Integrales';document.title=n+' — Caza Pro '+APP_VER+' EXECUTIVE';var h1=document.querySelector('.sb-head h1');if(h1)h1.textContent=n;var p=document.getElementById('brandSlogan');if(p)p.textContent=s}
 
 /* === PARSERS === */
 function parseOferta(t){var out={producto:'',precio:0,descPct:0,fleteGratis:false,link:'',telefono:'',usuario:'',fuente:'Instagram'};var lines=t.split('\n').map(function(l){return limpiarEmoji(l)}).filter(function(l){return l.length>2});var mL=t.match(/https?:\/\/\S+|www\.\S+[\w\/.-]*/i);if(mL)out.link=mL[0];if(/instagram\.com/i.test(t))out.fuente='Instagram';else if(/whatsapp\.com|wa\.me/i.test(t))out.fuente='Canal WhatsApp';else if(/facebook\.com/i.test(t))out.fuente='Facebook';else if(out.link)out.fuente='Web';var mu=t.match(/@([\w.]{3,30})/);if(mu)out.usuario=mu[1];var mt=t.match(/(?:\+?54[\s.-]?)?(?:9[\s.-]?)?(11|383|351|341|261|221|223|291|299|381|387|385|388)[\s.-]?\d{4}[\s.-]?\d{4}/);if(mt)out.telefono=mt[0].replace(/\D/g,'');var mp=t.match(/\$\s?(\d{1,3}(?:\.\d{3})+(?:,\d+)?)/)||t.match(/\$\s?(\d{4,7}(?:,\d+)?)/)||t.match(/\b(\d{1,3}(?:\.\d{3})+(?:,\d+)?)\b/)||t.match(/\b(\d{4,7})\b/);if(mp)out.precio=parseFloat(mp[1].replace(/\./g,'').replace(',','.'));var md=t.match(/(\d{1,2})\s?%\s?(?:OFF|dto\.?|descuento|menos)/i);if(md)out.descPct=+md[1];if(/env[ií]os?\s?gratis/i.test(t))out.fleteGratis=true;for(var i=0;i<lines.length;i++){var l=lines[i];if(!/https?:|@|📍|www\.|Av\.|Calle/i.test(l)&&l.length>8&&!/^\d+$/.test(l)){out.producto=l.slice(0,80);break}}return out}
