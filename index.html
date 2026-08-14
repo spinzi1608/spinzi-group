@@ -4,20 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#070C16">
-<title>SPINZI GROUP — Caza Pro v8.0 EXECUTIVE</title>
+<title>CTRLBEE™ — Suite Ejecutiva by SPINZI GROUP · v3.0</title>
 <!-- v7.24 — favicon PNG del logo nuevo (icon-192-v724.png): nombre nuevo → imposible que quede viejo por caché -->
 <link rel="icon" type="image/png" href="icon-192-v724.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SPINZI GROUP">
+<meta name="apple-mobile-web-app-title" content="CTRLBEE by SPINZI GROUP">
 <link rel="apple-touch-icon" href="apple-touch-icon-v724.png">
 <link href="https://fonts.googleapis/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#070C16;--card:#0E1728;--card2:#13203A;--text:#E9EDF5;--muted:#93A3B8;--border:rgba(147,163,184,.14);--input:rgba(255,255,255,.04);--opt-bg:#0E1728;--opt-text:#E9EDF5;--gold:#D4AF37;--gold2:#EAC96B;--emerald:#10B981;--emerald2:#059669;--cyan:#22A7C6;--red:#EF4444;--yellow:#F5B60A;--green:#34D399;--blue:#60A5FA;--silver:#94A3B8;--shadow:0 12px 32px rgba(0,0,0,.45);--font-body:'Inter','Segoe UI',Arial,sans-serif;--font-disp:'Manrope','Inter','Segoe UI',sans-serif}
-body.light{--bg:#F2F4F9;--card:#FFF;--card2:#FFF;--text:#101B30;--muted:#5D6C83;--border:#E4E9F2;--input:#F7F9FC;--opt-bg:#FFF;--opt-text:#101B30;--gold:#8F6E14;--gold2:#7A5C0F;--emerald:#0B8A5F;--emerald2:#087A53;--cyan:#177E99;--red:#D64545;--yellow:#B97E08;--green:#0E9F6E;--blue:#2277CC;--silver:#6B7A90;--shadow:0 10px 26px rgba(23,34,56,.10)}
+:root{--bg:#070C16;--card:#0E1728;--card2:#13203A;--text:#F2F6FC;--muted:#A9B7CB;--border:rgba(147,163,184,.18);--input:rgba(255,255,255,.05);--opt-bg:#0E1728;--opt-text:#F2F6FC;--gold:#D4AF37;--gold2:#EAC96B;--emerald:#10B981;--emerald2:#059669;--cyan:#22A7C6;--red:#EF4444;--yellow:#F5B60A;--green:#34D399;--blue:#60A5FA;--silver:#AEB9C9;--shadow:0 12px 32px rgba(0,0,0,.45);--font-body:'Inter','Segoe UI',Arial,sans-serif;--font-disp:'Manrope','Inter','Segoe UI',sans-serif}
+body.light{--bg:#F2F4F9;--card:#FFF;--card2:#FFF;--text:#0B1626;--muted:#4E6079;--border:#D8DFEA;--input:#F7F9FC;--opt-bg:#FFF;--opt-text:#0B1626;--gold:#8F6E14;--gold2:#7A5C0F;--emerald:#0B8A5F;--emerald2:#087A53;--cyan:#177E99;--red:#D64545;--yellow:#B97E08;--green:#0E9F6E;--blue:#2277CC;--silver:#5B6B82;--shadow:0 10px 26px rgba(23,34,56,.10)}
 body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;font-variant-numeric:tabular-nums}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 .wrap{display:flex;min-height:100vh}
@@ -71,7 +71,9 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.84rem;vert
 .modal-ov{position:fixed;inset:0;background:rgba(3,6,12,.78);display:none;align-items:center;justify-content:center;z-index:1000;padding:18px;overflow-y:auto}
 .modal-ov.active{display:flex}
 .modal{position:relative;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;max-width:680px;width:100%;max-height:92dvh;overflow-y:auto;margin:auto}
-.modal-x{position:sticky;top:-10px;float:right;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;font-size:1rem;margin-left:auto;z-index:2}
+.modal-x{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(212,175,55,.55);background:var(--card);color:var(--gold2);cursor:pointer;font-size:1.1rem;line-height:1;display:flex;align-items:center;justify-content:center;z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .12s,background .12s}
+.modal-x:hover{transform:scale(1.1);background:rgba(212,175,55,.14)}
+.modal-x:active{transform:scale(.95)}
 .mtitle{font-size:1.15rem;font-weight:800;color:var(--gold2);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);padding-right:44px}
 .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .kbtn{padding:14px 0;border-radius:12px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:1.05rem;font-weight:700;cursor:pointer}
@@ -81,6 +83,12 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.84rem;vert
 .kb-col{background:var(--input);border:1px solid var(--border);border-radius:14px;padding:12px;min-height:240px}
 .kb-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
 .pos-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;text-align:center}
+.pos-ph{height:72px;margin:-12px -12px 8px;border-radius:12px 12px 0 0;background:var(--input);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:zoom-in;font-size:1.6rem;border-bottom:1px solid var(--border)}
+.pos-ph img{width:100%;height:100%;object-fit:cover}
+.pos-ph:hover{background:rgba(212,175,55,.08)}
+.pos-item .pos-ph+.btn-outline{top:8px;right:8px}
+.brand-ver{font-size:.52rem;color:var(--gold2);margin-top:4px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
+.sb-sub{opacity:.8;font-weight:600;letter-spacing:.3px;line-height:1.5}
 .chat-b{max-width:85%;padding:10px 14px;border-radius:14px;font-size:.86rem;line-height:1.5}
 .chat-user{background:var(--emerald);color:#fff;margin-left:auto}
 .chat-ai{background:var(--input);border:1px solid var(--border);white-space:pre-wrap}
@@ -115,6 +123,8 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.84rem;vert
 .stat .v{font-size:1.5rem;font-weight:800;letter-spacing:.01em}
 .btn{border-radius:10px;font-weight:600;letter-spacing:.02em;transition:transform .15s,box-shadow .15s,background .15s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.btn:active{transform:translateY(1px);box-shadow:none}
+input.fc::placeholder,textarea.fc::placeholder{opacity:.45}
 .btn-gold{background:linear-gradient(135deg,#d4af37,#f0c95c);color:#0a0f1c}
 .btn-gold:hover{background:linear-gradient(135deg,#e8c64f,#ffdd7a)}
 .btn-primary{background:linear-gradient(135deg,#1d2c55,#27417f)}
@@ -158,13 +168,13 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.84rem;vert
 <aside class="sb" id="sb">
 <div class="sb-head">
 <div class="logo-box">
-<!-- v7.24 — logo de la página: imagen "S" (logo-s.jpeg, nombre nuevo → imposible que quede viejo por caché) -->
-<img src="logo-s.jpeg" alt="SPINZI GROUP">
+<!-- v3.0 — wordmark CTRLBEE (Ctrl = tecla control · Bee = abeja): logo vectorial inline, sin imagen externa -->
+<svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CTRLBEE"><defs><linearGradient id="cbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0c95c"/><stop offset="1" stop-color="#a97e1f"/></linearGradient></defs><rect width="54" height="54" rx="12" fill="#0d1526"/><rect x="1.5" y="1.5" width="51" height="51" rx="10.5" fill="none" stroke="url(#cbg)" stroke-width="2"/><path d="M27 9l13 7.5v15L27 45 14 31.5v-15z" fill="none" stroke="url(#cbg)" stroke-width="1.6" opacity=".55"/><text x="27" y="24" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12.5" font-weight="800" fill="url(#cbg)">CTRL</text><text x="27" y="41" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="800" fill="#eef3fb">bee</text></svg>
 </div>
-<div><h1>SPINZI GROUP</h1><p id="brandSlogan">Compañía Prestadora de Servicios Múltiples &amp; Soluciones Integrales</p></div>
+<div><h1>SPINZI GROUP</h1><p id="brandSlogan">Compañía Prestadora de Servicios Múltiples &amp; Soluciones Integrales</p><p id="brandVer" class="brand-ver">CTRLBEE™ v3.0 · Suite Ejecutiva</p></div>
 </div>
 <nav id="nav"></nav>
-<div class="sb-foot">v8.0 EXECUTIVE • © Carlos Spinzi — SPINZI GROUP 🇦🇷</div>
+<div class="sb-foot">CTRLBEE™ v3.0 EXECUTIVE · © Carlos Spinzi 🇦🇷<br><span class="sb-sub">by SPINZI GROUP — Compañía Prestadora de Servicios Múltiples &amp; Soluciones Integrales</span></div>
 </aside>
 <div class="main">
 <header class="top">
@@ -407,7 +417,7 @@ function logH(a){var h=DB.get('historial');h.push({f:new Date().toLocaleString('
 function verHistorial(){var h=DB.get('historial').slice(-30).reverse();document.getElementById('det-title').textContent='📜 Historial';document.getElementById('det-body').innerHTML=h.length?h.map(function(x){return'<div class="det-row"><span>'+esc(x.f)+'<br><span style="font-size:.7rem;color:var(--muted)">'+esc(x.d)+'</span></span><b>'+esc(x.a)+'</b></div>'}).join(''):'<p>Sin movimientos.</p>';openModal('modal-detalle')}
 
 /* === BRANDING EJECUTIVO === */
-function updBranding(){var c=DB.cfg();var n=c.nombre||'SPINZI GROUP';var s=c.slogan||'Compañía Prestadora de Servicios Múltiples & Soluciones Integrales';document.title=n+' — Caza Pro '+APP_VER+' EXECUTIVE';var h1=document.querySelector('.sb-head h1');if(h1)h1.textContent=n;var p=document.getElementById('brandSlogan');if(p)p.textContent=s}
+function updBranding(){var c=DB.cfg();var n=c.nombre||'SPINZI GROUP';var s=c.slogan||'Compañía Prestadora de Servicios Múltiples & Soluciones Integrales';document.title=n+' — CTRLBEE™ v3.0 EXECUTIVE';var h1=document.querySelector('.sb-head h1');if(h1)h1.textContent=n;var p=document.getElementById('brandSlogan');if(p)p.textContent=s;var bv=document.getElementById('brandVer');if(bv)bv.textContent='CTRLBEE™ v3.0 · Suite Ejecutiva — '+n}
 
 /* === PARSERS === */
 function parseOferta(t){var out={producto:'',precio:0,descPct:0,fleteGratis:false,link:'',telefono:'',usuario:'',fuente:'Instagram'};var lines=t.split('\n').map(function(l){return limpiarEmoji(l)}).filter(function(l){return l.length>2});var mL=t.match(/https?:\/\/\S+|www\.\S+[\w\/.-]*/i);if(mL)out.link=mL[0];if(/instagram\.com/i.test(t))out.fuente='Instagram';else if(/whatsapp\.com|wa\.me/i.test(t))out.fuente='Canal WhatsApp';else if(/facebook\.com/i.test(t))out.fuente='Facebook';else if(out.link)out.fuente='Web';var mu=t.match(/@([\w.]{3,30})/);if(mu)out.usuario=mu[1];var mt=t.match(/(?:\+?54[\s.-]?)?(?:9[\s.-]?)?(11|383|351|341|261|221|223|291|299|381|387|385|388)[\s.-]?\d{4}[\s.-]?\d{4}/);if(mt)out.telefono=mt[0].replace(/\D/g,'');var mp=t.match(/\$\s?(\d{1,3}(?:\.\d{3})+(?:,\d+)?)/)||t.match(/\$\s?(\d{4,7}(?:,\d+)?)/)||t.match(/\b(\d{1,3}(?:\.\d{3})+(?:,\d+)?)\b/)||t.match(/\b(\d{4,7})\b/);if(mp)out.precio=parseFloat(mp[1].replace(/\./g,'').replace(',','.'));var md=t.match(/(\d{1,2})\s?%\s?(?:OFF|dto\.?|descuento|menos)/i);if(md)out.descPct=+md[1];if(/env[ií]os?\s?gratis/i.test(t))out.fleteGratis=true;for(var i=0;i<lines.length;i++){var l=lines[i];if(!/https?:|@|📍|www\.|Av\.|Calle/i.test(l)&&l.length>8&&!/^\d+$/.test(l)){out.producto=l.slice(0,80);break}}return out}
@@ -819,7 +829,7 @@ el.innerHTML=c?('👤 '+esc(nombreComp(c))+(c.dni?' — DNI '+c.dni:'')+(c.negoc
 posDetalle();
 }
 function stockBadge(x){var s=x.stock||0,m=x.minstock||0;var c=s<=0?'b-r':s<=m?'b-r':s<=Math.max(1,m*2)?'b-y':'b-g';return'<span class="badge '+c+'">📦 '+s+' un'+(m>0?' · mín '+m:'')+'</span>'}
-function posRender(){var q=(document.getElementById('pos-q')?document.getElementById('pos-q').value:'').toLowerCase();var a=DB.get('articulos').filter(function(x){return x.stock>0&&(!q||((x.codigo||'')+' '+(x.barcode||'')+' '+x.nombre).toLowerCase().indexOf(q)>=0)});document.getElementById('pos-res').innerHTML=a.slice(0,18).map(function(x){return'<div class="pos-item" style="position:relative" onclick="posAdd(\''+x.id+'\')"><button class="btn btn-sm btn-outline" style="position:absolute;top:4px;right:4px;padding:0 6px;font-size:.7rem" onclick="event.stopPropagation();verArticulo(\''+x.id+'\')" title="Ver ficha (fotos + descripción)">👁</button><div style="font-size:.62rem;color:var(--muted)">'+esc(x.codigo||'')+'</div><b style="font-size:.78rem">'+esc(x.nombre)+'</b><div style="color:var(--gold2);font-weight:700;margin-top:4px">'+money(x.precio)+'</div><div style="margin-top:5px">'+stockBadge(x)+'</div></div>'}).join('')||'<p style="color:var(--muted)">Sin stock.</p>';posCartRender()}
+function posRender(){var q=(document.getElementById('pos-q')?document.getElementById('pos-q').value:'').toLowerCase();var a=DB.get('articulos').filter(function(x){return x.stock>0&&(!q||((x.codigo||'')+' '+(x.barcode||'')+' '+x.nombre).toLowerCase().indexOf(q)>=0)});document.getElementById('pos-res').innerHTML=a.slice(0,18).map(function(x){return'<div class="pos-item" style="position:relative" onclick="posAdd(\''+x.id+'\')"><div class="pos-ph" onclick="event.stopPropagation();verArticulo(\''+x.id+'\')" title="Ver ficha: fotos + detalles del artículo">'+(x.foto?'<img src="'+x.foto+'" loading="lazy" alt="">':'<span>📦</span>')+'</div><button class="btn btn-sm btn-outline" style="position:absolute;top:4px;right:4px;padding:0 6px;font-size:.7rem" onclick="event.stopPropagation();verArticulo(\''+x.id+'\')" title="Ver ficha (fotos + descripción)">👁</button><div style="font-size:.62rem;color:var(--muted)">'+esc(x.codigo||'')+'</div><b style="font-size:.78rem">'+esc(x.nombre)+'</b><div style="color:var(--gold2);font-weight:700;margin-top:4px">'+money(x.precio)+'</div><div style="margin-top:5px">'+stockBadge(x)+'</div></div>'}).join('')||'<p style="color:var(--muted)">Sin stock.</p>';posCartRender()}
 function posAdd(id){var a=DB.get('articulos').find(function(x){return x.id===id});var it=posCart.find(function(i){return i.artId===id});if(it){if(it.cant<a.stock)it.cant++;else{toast('Sin más stock','error');return}}else posCart.push({artId:id,nom:a.nombre,cant:1,pre:a.precio,costo:a.costo});posCartRender()}
 function posQty(id,d){var it=posCart.find(function(i){return i.artId===id});var a=DB.get('articulos').find(function(x){return x.id===id});it.cant+=d;if(it.cant<=0)posCart=posCart.filter(function(i){return i.artId!==id});else if(a&&it.cant>a.stock)it.cant=a.stock;posCartRender()}
 function posCartRender(){var el=document.getElementById('pos-cart');if(!el)return;el.innerHTML=posCart.length?posCart.map(function(i){return'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)"><div style="flex:1"><b style="font-size:.8rem">'+esc(i.nom)+'</b>'+(DB.cfg().ocultarCostos?'':'<div style="font-size:.6rem;color:var(--muted)">💸 costo '+money((i.costo||0)*i.cant)+' · gana '+money(((i.pre||0)-(i.costo||0))*i.cant)+'</div>')+'</div><button class="btn btn-sm btn-outline" onclick="posQty(\''+i.artId+'\',-1)">−</button><b>'+i.cant+'</b><button class="btn btn-sm btn-outline" onclick="posQty(\''+i.artId+'\',1)">+</button><b style="min-width:70px;text-align:right">'+money(i.cant*i.pre)+'</b></div>'}).join(''):'<p style="color:var(--muted);text-align:center;padding:20px 0">Ticket vacío</p>';document.getElementById('pos-total').textContent=money(posTotal().tot)}
