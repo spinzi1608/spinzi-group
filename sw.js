@@ -5,7 +5,7 @@
    v7.28: el nombre de caché cambió para que todos los equipos tomen la versión nueva.
    v7.29: el nombre de caché cambió a spinzi-v7-29 — este es el fix que faltaba: sin cambio de nombre,
    el celular seguía sirviendo la copia v7.28 cacheada aunque la web ya tuviera la v7.29. */
-const CACHE = 'spinzi-v7-29';
+const CACHE = 'spinzi-v8-0';
 const STATIC = [
   './logo.png',
   './logo-s.jpeg',
