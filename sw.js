@@ -1,11 +1,8 @@
-/* SPINZI GROUP — Service Worker (PWA) v7.29
+/* CTRLBEE by SPINZI GROUP — Service Worker (PWA) v3.0
    Estrategia: CACHE-FIRST para la app (abre al instante, aunque estés fuera de la red local)
    y actualiza en segundo plano cuando hay internet. Los datos NUNCA se cachean (van por nube/local).
-   v7.22: íconos con nombre nuevo (-v722) para que el navegador NO pueda servir el logo viejo cacheado.
-   v7.28: el nombre de caché cambió para que todos los equipos tomen la versión nueva.
-   v7.29: el nombre de caché cambió a spinzi-v7-29 — este es el fix que faltaba: sin cambio de nombre,
-   el celular seguía sirviendo la copia v7.28 cacheada aunque la web ya tuviera la v7.29. */
-const CACHE = 'spinzi-v8-0';
+   v8.1: nuevo nombre de caché (CTRLBEE v3.0): todos los equipos toman el rebranding automáticamente. */
+const CACHE = 'ctrlbee-v3-0';
 const STATIC = [
   './logo.png',
   './logo-s.jpeg',
