@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0E141B">
+<title>Calculadora de Precios · SPINZI GROUP</title>
+<!-- IDENTIDAD OFICIAL SPINZI GROUP (kit: diseno/identidad/) -->
+<link rel="icon" type="image/png" href="favicon-identidad.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calc Precios SPINZI">
+<link rel="apple-touch-icon" href="icon-identidad-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0E141B;--card:#16202A;--card2:#1B2A33;--text:#F2F1EC;--muted:#A9B4A4;
+  --border:rgba(174,184,150,.16);--input:rgba(255,255,255,.05);
+  --gold:#8A9249;--gold2:#ADB46C;--emerald:#285151;--emerald2:#4A6E6E;
+  --shadow:0 12px 32px rgba(0,0,0,.45);
+  --font-body:'Open Sans','Segoe UI',Arial,sans-serif;
+  --font-disp:'Montserrat','Inter','Segoe UI',sans-serif;
+}
+body.light{
+  --bg:#F2F1EC;--card:#FFF;--card2:#FAF8F2;--text:#1E242C;--muted:#50595D;
+  --border:#DDD9CC;--input:#F4F2EB;--gold:#8A9249;--gold2:#6E7736;--emerald:#285151;
+  --shadow:0 10px 26px rgba(23,34,56,.10);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;padding:18px;font-variant-numeric:tabular-nums}
+.wrap{max-width:520px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+header img{width:52px;height:52px;border-radius:12px;object-fit:contain}
+header h1{font-family:var(--font-disp);font-size:1.15rem;font-weight:800;letter-spacing:1.5px;background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header p{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+label{display:block;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+input{width:100%;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:1.05rem;color:var(--text);font-family:var(--font-body);outline:none}
+input:focus{border-color:var(--gold)}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.resultado{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:16px;text-align:center}
+.resultado .lbl{font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.precio{font-family:var(--font-disp);font-size:2rem;font-weight:900;color:var(--gold2);margin:4px 0 2px}
+.precio-iva{font-size:.95rem;color:var(--text)}
+.mini{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-top:8px;border-top:1px dashed var(--border);padding-top:8px}
+.mini b{color:var(--text)}
+.btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1E242C;border:none;border-radius:12px;padding:14px;font-size:1rem;font-weight:800;font-family:var(--font-disp);letter-spacing:.5px;cursor:pointer;margin-top:14px}
+.btn:active{transform:scale(.98)}
+.hist{margin-top:10px}
+.hist-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-top:8px;font-size:.85rem}
+.hist-item .h-precio{font-weight:800;color:var(--gold2)}
+.hist-item button{background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:0 4px}
+.vacio{color:var(--muted);font-size:.85rem;text-align:center;padding:12px}
+.theme{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+footer{text-align:center;font-size:.7rem;color:var(--muted);margin-top:8px;line-height:1.7}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1E242C;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="favicon-identidad.png" alt="SPINZI GROUP">
+    <div>
+      <h1>CALCULADORA DE PRECIOS</h1>
+      <p>SPINZI GROUP · Gestión Integral Ejecutiva</p>
+    </div>
+  </header>
+  <button class="theme" id="btnTema" title="Cambiar tema">🌙</button>
+
+  <div class="card">
+    <label for="costo">Costo del producto ($)</label>
+    <input id="costo" type="number" inputmode="decimal" placeholder="Ej: 12500" value="">
+    <div class="row">
+      <div>
+        <label for="margen">Margen de ganancia (%)</label>
+        <input id="margen" type="number" inputmode="decimal" placeholder="30" value="30">
+      </div>
+      <div>
+        <label for="iva">IVA (%)</label>
+        <input id="iva" type="number" inputmode="decimal" placeholder="21" value="21">
+      </div>
+    </div>
+    <label for="envio">Envío / flete ($)</label>
+    <input id="envio" type="number" inputmode="decimal" placeholder="Ej: 0" value="0">
+
+    <div class="resultado">
+      <div class="lbl">Precio sugerido</div>
+      <div class="precio" id="precio">—</div>
+      <div class="precio-iva" id="precioIva">con IVA: —</div>
+      <div class="mini"><span>Ganancia</span><b id="ganancia">—</b></div>
+      <div class="mini"><span>Margen aplicado</span><b id="margenTxt">—</b></div>
+    </div>
+
+    <button class="btn" id="btnCalcular">🧮 CALCULAR</button>
+    <button class="btn" id="btnUsar" style="background:var(--card2);color:var(--gold2);border:1px solid var(--gold)">✓ USAR ESTE PRECIO (copiar)</button>
+  </div>
+
+  <div class="card">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">HISTORIAL RECIENTE</h2>
+    <div class="hist" id="hist"></div>
+  </div>
+
+  <footer>Hecho con la identidad oficial de SPINZI GROUP · Funciona 100% sin internet<br>
+  📱 Instalala: menú del navegador → «Instalar aplicación»</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var $=function(id){return document.getElementById(id)};
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function redondear(n){
+  if(n<=0) return 0;
+  if(n<1000) return Math.round(n/10)*10;
+  if(n<10000) return Math.round(n/100)*100;
+  if(n<100000) return Math.round(n/500)*500;
+  return Math.round(n/1000)*1000;
+}
+function calcular(){
+  var costo=parseFloat($('costo').value)||0;
+  var margen=parseFloat($('margen').value)||0;
+  var iva=parseFloat($('iva').value)||0;
+  var envio=parseFloat($('envio').value)||0;
+  var sinIva=costo*(1+margen/100)+envio;
+  var conIva=sinIva*(1+iva/100);
+  var sug=redondear(conIva);
+  var gan=sinIva-costo-envio;
+  $('precio').textContent=fmt(sug);
+  $('precioIva').textContent='con IVA ('+iva+'%): '+fmt(conIva);
+  $('ganancia').textContent=fmt(gan);
+  $('margenTxt').textContent=margen+'% sobre costo';
+  return {costo:costo,margen:margen,iva:iva,envio:envio,sug:sug,conIva:conIva};
+}
+function guardarHist(r){
+  var h=JSON.parse(localStorage.getItem('histPrecios')||'[]');
+  h.unshift({f:new Date().toLocaleDateString('es-AR'),costo:r.costo,margen:r.margen,iva:r.iva,sug:r.sug});
+  if(h.length>8)h=h.slice(0,8);
+  localStorage.setItem('histPrecios',JSON.stringify(h));
+  pintarHist();
+}
+function pintarHist(){
+  var h=JSON.parse(localStorage.getItem('histPrecios')||'[]');
+  var el=$('hist');
+  if(!h.length){el.innerHTML='<div class="vacio">Todavía no calculaste nada. 🧮</div>';return}
+  el.innerHTML=h.map(function(r,i){
+    return '<div class="hist-item"><span>'+r.f+' · costo '+fmt(r.costo)+' · '+r.margen+'%</span><span class="h-precio">'+fmt(r.sug)+'</span><button onclick="borrarHist('+i+')" title="Borrar">✕</button></div>';
+  }).join('');
+}
+function borrarHist(i){
+  var h=JSON.parse(localStorage.getItem('histPrecios')||'[]');
+  h.splice(i,1);localStorage.setItem('histPrecios',JSON.stringify(h));pintarHist();
+}
+function toast(t){
+  var el=$('toast');el.textContent=t;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show')},1800);
+}
+$('btnCalcular').onclick=function(){
+  var r=calcular();
+  if(r.sug>0){guardarHist(r);toast('✓ Precio calculado')}
+};
+$('btnUsar').onclick=function(){
+  var r=calcular();
+  if(r.sug<=0){toast('Completá el costo primero');return}
+  navigator.clipboard.writeText(String(r.sug)).then(function(){toast('✓ '+fmt(r.sug)+' copiado')},function(){toast('✓ '+fmt(r.sug))});
+  guardarHist(r);
+};
+// Enter calcula
+document.addEventListener('keydown',function(e){if(e.key==='Enter')$('btnCalcular').click()});
+// Tema
+var oscuro=true;
+$('btnTema').onclick=function(){
+  oscuro=!oscuro;
+  document.body.classList.toggle('light',!oscuro);
+  $('btnTema').textContent=oscuro?'🌙':'☀️';
+  localStorage.setItem('temaCalc',oscuro?'oscuro':'claro');
+};
+if(localStorage.getItem('temaCalc')==='claro'){$('btnTema').click()}
+pintarHist();
+if('serviceWorker' in navigator&&(location.protocol==='http:'||location.protocol==='https:')){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+}
+</script>
+</body>
+</html>
