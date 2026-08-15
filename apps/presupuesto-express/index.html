@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0E141B">
+<title>Presupuesto Express · SPINZI GROUP</title>
+<link rel="icon" type="image/png" href="favicon-identidad.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Presupuesto SPINZI">
+<link rel="apple-touch-icon" href="icon-identidad-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0E141B;--card:#16202A;--card2:#1B2A33;--text:#F2F1EC;--muted:#A9B4A4;
+  --border:rgba(174,184,150,.16);--input:rgba(255,255,255,.05);
+  --gold:#8A9249;--gold2:#ADB46C;--emerald:#285151;--emerald2:#4A6E6E;
+  --green:#34D399;--red:#EF4444;
+  --shadow:0 12px 32px rgba(0,0,0,.45);
+  --font-body:'Open Sans','Segoe UI',Arial,sans-serif;
+  --font-disp:'Montserrat','Inter','Segoe UI',sans-serif;
+}
+body.light{
+  --bg:#F2F1EC;--card:#FFF;--card2:#FAF8F2;--text:#1E242C;--muted:#50595D;
+  --border:#DDD9CC;--input:#F4F2EB;--gold:#8A9249;--gold2:#6E7736;--emerald:#285151;
+  --shadow:0 10px 26px rgba(23,34,56,.10);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;padding:18px;font-variant-numeric:tabular-nums}
+.wrap{max-width:760px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+header img{width:52px;height:52px;border-radius:12px;object-fit:contain}
+header h1{font-family:var(--font-disp);font-size:1.1rem;font-weight:800;letter-spacing:1.4px;background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header p{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+label{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
+input{width:100%;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:11px 13px;font-size:1rem;color:var(--text);font-family:var(--font-body);outline:none}
+input:focus{border-color:var(--gold)}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1E242C;border:none;border-radius:12px;padding:13px;font-size:.95rem;font-weight:800;font-family:var(--font-disp);letter-spacing:.5px;cursor:pointer;margin-top:12px}
+.btn.wa{background:linear-gradient(135deg,#34D399,#0E9F6E)}
+.btn.ghost{background:var(--card2);color:var(--gold2);border:1px solid var(--gold)}
+.btn.danger{background:var(--red)}
+.btn:active{transform:scale(.98)}
+.item{display:grid;grid-template-columns:1fr 64px 96px 34px;gap:8px;align-items:center;margin-top:8px}
+.item input{padding:9px 10px;font-size:.88rem}
+.item .del{background:none;border:none;color:var(--red);font-size:1.1rem;cursor:pointer;font-weight:800}
+.doc{background:var(--card2);border:1px solid var(--gold);border-radius:14px;padding:18px;margin-top:14px}
+.doc h2{font-family:var(--font-disp);font-size:1rem;letter-spacing:2px;color:var(--gold);margin-bottom:4px}
+.doc .meta{font-size:.75rem;color:var(--muted);margin-bottom:12px}
+.tabla{width:100%;border-collapse:collapse;font-size:.85rem}
+.tabla th{text-align:left;color:var(--gold2);font-size:.68rem;letter-spacing:1px;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--border)}
+.tabla td{padding:7px 8px;border-bottom:1px solid var(--border)}
+.tabla .num{text-align:right;font-weight:700}
+.totales{margin-top:12px;text-align:right;font-size:.9rem;line-height:1.9}
+.totales b{font-size:1.1rem;color:var(--gold2)}
+.hist{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;margin-top:10px}
+.hist .nm{font-weight:800;font-size:.92rem}
+.hist .sub{font-size:.72rem;color:var(--muted)}
+.hist .tot{color:var(--gold2);font-weight:800}
+.hist button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:0 4px}
+.theme{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+.vacio{color:var(--muted);font-size:.85rem;text-align:center;padding:14px}
+footer{text-align:center;font-size:.7rem;color:var(--muted);margin-top:8px;line-height:1.7}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1E242C;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+pre.msg{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:var(--font-body);font-size:.85rem;white-space:pre-wrap;line-height:1.7;margin-top:12px;max-height:260px;overflow-y:auto}
+@media print{
+  body{background:#fff;color:#000;padding:0}
+  .wrap{max-width:100%}
+  header,.theme,.btn,.no-print,footer{display:none!important}
+  .card{box-shadow:none;border:none;padding:0;background:#fff}
+  .doc{border:1px solid #ccc;background:#fff;color:#000}
+  .doc h2{color:#8A9249}
+  .tabla th{color:#555}
+  .totales b{color:#555}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="favicon-identidad.png" alt="SPINZI GROUP">
+    <div>
+      <h1>PRESUPUESTO EXPRESS</h1>
+      <p>SPINZI GROUP · Cotizá en 1 minuto y enviá por WhatsApp</p>
+    </div>
+  </header>
+  <button class="theme" id="btnTema" title="Cambiar tema">🌙</button>
+
+  <div class="card no-print">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">🧾 NUEVO PRESUPUESTO</h2>
+    <div class="row">
+      <div>
+        <label for="cli">Cliente *</label>
+        <input id="cli" placeholder="Nombre / empresa" value="">
+      </div>
+      <div>
+        <label for="wa">WhatsApp (para enviarlo)</label>
+        <input id="wa" placeholder="54911..." value="">
+      </div>
+    </div>
+    <label>Productos / servicios</label>
+    <div id="items"></div>
+    <button class="btn ghost" id="btnItem" style="margin-top:10px;padding:9px">＋ AGREGAR LÍNEA</button>
+    <div class="row">
+      <div>
+        <label for="desc">Descuento %</label>
+        <input id="desc" type="number" inputmode="decimal" placeholder="0" value="0">
+      </div>
+      <div>
+        <label for="validez">Validez (días)</label>
+        <input id="validez" type="number" inputmode="numeric" value="15">
+      </div>
+    </div>
+    <button class="btn" id="btnGen">📄 GENERAR PRESUPUESTO</button>
+  </div>
+
+  <div class="card" id="docCard" style="display:none">
+    <div class="doc" id="doc"></div>
+    <div class="row" style="gap:10px">
+      <button class="btn wa" id="btnWA">📱 ENVIAR POR WHATSAPP</button>
+      <button class="btn ghost" id="btnPrint" style="margin-top:12px">🖨️ PDF / IMPRIMIR</button>
+    </div>
+    <button class="btn ghost" id="btnCopiar" style="margin-top:10px">📋 COPIAR TEXTO</button>
+    <pre class="msg" id="msg" style="display:none"></pre>
+  </div>
+
+  <div class="card no-print">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">🗂️ HISTORIAL (<span id="cont">0</span>)</h2>
+    <div id="lista"></div>
+  </div>
+
+  <footer>Hecho con la identidad oficial de SPINZI GROUP · Funciona 100% sin internet<br>
+  📱 Instalala: menú del navegador → «Instalar aplicación»</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var $=function(id){return document.getElementById(id)};
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function getH(){return JSON.parse(localStorage.getItem('presupuestosSpinzi')||'[]')}
+function setH(d){localStorage.setItem('presupuestosSpinzi',JSON.stringify(d))}
+function toast(t){var e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('show')},2200)}
+
+function linea(v){
+  var d=document.createElement('div');d.className='item';
+  d.innerHTML='<input placeholder="Descripción (ej: Mantenimiento mensual)" value="'+(v&&v.d||'')+'">'+
+    '<input type="number" inputmode="decimal" placeholder="Cant." value="'+(v&&v.c||'1')+'">'+
+    '<input type="number" inputmode="decimal" placeholder="Precio $" value="'+(v&&v.p||'')+'">'+
+    '<button class="del" title="Quitar">✕</button>';
+  d.querySelector('.del').onclick=function(){d.remove()};
+  return d;
+}
+$('btnItem').onclick=function(){$('items').appendChild(linea(null))};
+$('items').appendChild(linea(null));
+
+function leerItems(){
+  var out=[];
+  $('items').querySelectorAll('.item').forEach(function(r){
+    var i=r.querySelectorAll('input');
+    var d=i[0].value.trim(), c=parseFloat(i[1].value)||1, p=parseFloat(i[2].value)||0;
+    if(d&&p>0)out.push({d:d,c:c,p:p});
+  });
+  return out;
+}
+function calc(items,desc){
+  var sub=items.reduce(function(s,it){return s+it.c*it.p},0);
+  var d=sub*((parseFloat(desc)||0)/100);
+  var base=sub-d;
+  var iva=base*0.21;
+  return {sub:sub,d:d,iva:iva,total:base+iva};
+}
+function numDoc(){
+  var d=getH();
+  var n=d.length+1;
+  return 'SP-'+String(new Date().getFullYear()%100)+'-'+String(n).padStart(3,'0');
+}
+$('btnGen').onclick=function(){
+  var cli=$('cli').value.trim();
+  var items=leerItems();
+  if(!cli){toast('Poné el nombre del cliente');return}
+  if(!items.length){toast('Agregá al menos un producto con precio');return}
+  var c=calc(items,$('desc').value);
+  var hoy=new Date();
+  var venc=new Date(hoy);venc.setDate(venc.getDate()+(parseInt($('validez').value)||15));
+  var p={num:numDoc(),cli:cli,wa:$('wa').value.trim(),fecha:hoy.toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'}),
+    vence:venc.toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'}),
+    items:items,desc:parseFloat($('desc').value)||0,sub:c.sub,d:c.d,iva:c.iva,total:c.total,redondeo:false};
+  // redondeo "lindo": si el total no es redondo, sugerir cierre redondo
+  var cerrado=Math.round(p.total/100)*100;
+  if(cerrado!==p.total&&cerrado>0){p.total=cerrado;p.redondeo=true}
+  var h=getH();h.unshift(p);setH(h);
+  pintarDoc(p);pintarLista();
+  $('docCard').style.display='block';
+  toast('✓ Presupuesto '+p.num+' generado');
+  $('docCard').scrollIntoView({behavior:'smooth',block:'start'});
+};
+function pintarDoc(p){
+  var filas=p.items.map(function(it,i){
+    return '<tr><td>'+(i+1)+'. '+it.d+' <span style="color:var(--muted)">× '+it.c+'</span></td>'+
+      '<td class="num">'+fmt(it.c*it.p)+'</td></tr>';
+  }).join('');
+  $('doc').innerHTML=
+    '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">'+
+      '<div><h2>PRESUPUESTO '+p.num+'</h2>'+
+      '<div class="meta">'+p.cli+' · Emitido '+p.fecha+' · Válido hasta '+p.vence+'</div></div>'+
+      '<img src="favicon-identidad.png" style="width:44px;height:44px;border-radius:10px">'+
+    '</div>'+
+    '<table class="tabla"><tr><th>Detalle</th><th class="num">Total</th></tr>'+filas+'</table>'+
+    '<div class="totales">Subtotal: '+fmt(p.sub)+
+    (p.d>0?'<br>Descuento ('+p.desc+'%): −'+fmt(p.d):'')+
+    '<br>IVA 21%: '+fmt(p.iva)+
+    '<br><b>TOTAL: '+fmt(p.total)+'</b>'+
+    (p.redondeo?'<br><span style="font-size:.72rem;color:var(--muted)">(redondeado a precio "lindo")</span>':'')+
+    '</div>'+
+    '<div style="margin-top:12px;font-size:.78rem;color:var(--muted)">Gracias por confiar en SPINZI GROUP 🙌</div>';
+}
+function textoDoc(p){
+  var m='🧾 *PRESUPUESTO '+p.num+' — SPINZI GROUP*\n';
+  m+='👤 '+p.cli+'\n📅 Emitido: '+p.fecha+' · Válido hasta: '+p.vence+'\n\n';
+  p.items.forEach(function(it,i){m+=(i+1)+'. '+it.d+' × '+it.c+' = '+fmt(it.c*it.p)+'\n'});
+  m+='\nSubtotal: '+fmt(p.sub);
+  if(p.d>0)m+='\nDescuento ('+p.desc+'%): −'+fmt(p.d);
+  m+='\nIVA 21%: '+fmt(p.iva);
+  m+='\n*TOTAL: '+fmt(p.total)+'*';
+  if(p.redondeo)m+='\n(redondeado a precio "lindo")';
+  m+='\n\n¿Lo confirmamos? 🙌';
+  return m;
+}
+$('btnWA').onclick=function(){
+  var d=getH()[0];if(!d){toast('Generá un presupuesto primero');return}
+  var m=textoDoc(d);
+  if(d.wa){window.open('https://wa.me/'+d.wa.replace(/\D/g,'')+'?text='+encodeURIComponent(m),'_blank')}
+  else{$('msg').textContent=m;$('msg').style.display='block';toast('WhatsApp del cliente vacío — texto armado 👇')}
+};
+$('btnCopiar').onclick=function(){
+  var d=getH()[0];if(!d){toast('Generá un presupuesto primero');return}
+  navigator.clipboard.writeText(textoDoc(d)).then(function(){toast('📋 Copiado')},function(){toast('📋 Copiado')});
+};
+$('btnPrint').onclick=function(){
+  var d=getH()[0];if(!d){toast('Generá un presupuesto primero');return}
+  window.print();
+};
+function pintarLista(){
+  var d=getH();
+  $('cont').textContent=d.length;
+  var el=$('lista');
+  if(!d.length){el.innerHTML='<div class="vacio">Todavía no generaste presupuestos. 📄</div>';return}
+  el.innerHTML=d.map(function(p,i){
+    return '<div class="hist"><div><div class="nm">'+p.num+' · '+p.cli+'</div>'+
+      '<div class="sub">'+p.fecha+' · '+(p.items.length)+' líneas</div></div>'+
+      '<div style="display:flex;gap:6px;align-items:center">'+
+      '<span class="tot">'+fmt(p.total)+'</span>'+
+      '<button onclick="ver('+i+')" title="Ver">👁️</button>'+
+      '<button onclick="borrar('+i+')" title="Quitar">✕</button></div></div>';
+  }).join('');
+}
+function ver(i){var h=getH();pintarDoc(h[i]);$('docCard').style.display='block';$('docCard').scrollIntoView({behavior:'smooth'})}
+function borrar(i){var h=getH();h.splice(i,1);setH(h);pintarLista();toast('Presupuesto quitado')}
+var oscuro=true;
+$('btnTema').onclick=function(){
+  oscuro=!oscuro;
+  document.body.classList.toggle('light',!oscuro);
+  $('btnTema').textContent=oscuro?'🌙':'☀️';
+  localStorage.setItem('temaPres',oscuro?'oscuro':'claro');
+};
+if(localStorage.getItem('temaPres')==='claro'){$('btnTema').click()}
+pintarLista();
+if('serviceWorker' in navigator&&(location.protocol==='http:'||location.protocol==='https:')){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+}
+</script>
+</body>
+</html>
