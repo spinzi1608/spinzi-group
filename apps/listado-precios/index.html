@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0E141B">
+<title>Listado de Precios · SPINZI GROUP</title>
+<!-- IDENTIDAD OFICIAL SPINZI GROUP -->
+<link rel="icon" type="image/png" href="favicon-identidad.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lista Precios SPINZI">
+<link rel="apple-touch-icon" href="icon-identidad-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0E141B;--card:#16202A;--card2:#1B2A33;--text:#F2F1EC;--muted:#A9B4A4;
+  --border:rgba(174,184,150,.16);--input:rgba(255,255,255,.05);
+  --gold:#8A9249;--gold2:#ADB46C;--emerald:#285151;--emerald2:#4A6E6E;
+  --shadow:0 12px 32px rgba(0,0,0,.45);
+  --font-body:'Open Sans','Segoe UI',Arial,sans-serif;
+  --font-disp:'Montserrat','Inter','Segoe UI',sans-serif;
+}
+body.light{
+  --bg:#F2F1EC;--card:#FFF;--card2:#FAF8F2;--text:#1E242C;--muted:#50595D;
+  --border:#DDD9CC;--input:#F4F2EB;--gold:#8A9249;--gold2:#6E7736;--emerald:#285151;
+  --shadow:0 10px 26px rgba(23,34,56,.10);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;padding:18px;font-variant-numeric:tabular-nums}
+.wrap{max-width:640px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+header img{width:52px;height:52px;border-radius:12px;object-fit:contain}
+header h1{font-family:var(--font-disp);font-size:1.12rem;font-weight:800;letter-spacing:1.4px;background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header p{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+label{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
+input,select{width:100%;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:11px 13px;font-size:1rem;color:var(--text);font-family:var(--font-body);outline:none}
+input:focus,select:focus{border-color:var(--gold)}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1E242C;border:none;border-radius:12px;padding:13px;font-size:.95rem;font-weight:800;font-family:var(--font-disp);letter-spacing:.5px;cursor:pointer;margin-top:12px}
+.btn.wa{background:linear-gradient(135deg,#34D399,#0E9F6E)}
+.btn.ghost{background:var(--card2);color:var(--gold2);border:1px solid var(--gold)}
+.btn:active{transform:scale(.98)}
+.item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;margin-top:8px;font-size:.88rem}
+.item .nm{font-weight:700}
+.item .rb{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.item .pr{font-weight:800;color:var(--gold2);white-space:nowrap}
+.item button{background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:0 3px}
+.sum{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-top:10px;border-top:1px dashed var(--border);padding-top:10px}
+.sum b{color:var(--text)}
+.theme{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+.vacio{color:var(--muted);font-size:.85rem;text-align:center;padding:14px}
+footer{text-align:center;font-size:.7rem;color:var(--muted);margin-top:8px;line-height:1.7}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1E242C;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+pre.msg{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:var(--font-body);font-size:.85rem;white-space:pre-wrap;line-height:1.7;margin-top:12px;max-height:260px;overflow-y:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="favicon-identidad.png" alt="SPINZI GROUP">
+    <div>
+      <h1>LISTADO DE PRECIOS</h1>
+      <p>SPINZI GROUP · Lista por WhatsApp en 1 toque</p>
+    </div>
+  </header>
+  <button class="theme" id="btnTema" title="Cambiar tema">🌙</button>
+
+  <div class="card">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:4px">➕ AGREGAR PRODUCTO</h2>
+    <label for="nom">Producto *</label>
+    <input id="nom" placeholder="Ej: Martillo 20oz" value="">
+    <div class="row">
+      <div>
+        <label for="rubro">Rubro</label>
+        <input id="rubro" placeholder="Ej: Herramientas" value="">
+      </div>
+      <div>
+        <label for="margen">Margen %</label>
+        <input id="margen" type="number" inputmode="decimal" placeholder="30" value="30">
+      </div>
+    </div>
+    <label for="costo">Costo ($)</label>
+    <input id="costo" type="number" inputmode="decimal" placeholder="Ej: 8500" value="">
+    <button class="btn" id="btnAdd">➕ AGREGAR A LA LISTA</button>
+  </div>
+
+  <div class="card">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">📦 MI LISTA (<span id="cont">0</span>)</h2>
+    <div id="lista"></div>
+    <div class="sum"><span>Total productos</span><b id="total">0</b></div>
+    <button class="btn wa" id="btnWA">📱 ARMAR MENSAJE PARA WHATSAPP</button>
+    <button class="btn ghost" id="btnCopiar">📋 COPIAR LISTA</button>
+    <div class="row" style="gap:10px">
+      <button class="btn ghost" id="btnExportar" style="margin-top:10px">⬇️ Guardar lista</button>
+      <button class="btn ghost" id="btnImportar" style="margin-top:10px">⬆️ Cargar lista</button>
+      <input type="file" id="fileImp" accept=".json" style="display:none">
+    </div>
+    <div class="row" style="gap:10px">
+      <input id="waNum" placeholder="WhatsApp (ej: 54911...)">
+      <button class="btn" id="btnEnviar" style="margin-top:10px">🚀 ABRIR CHAT</button>
+    </div>
+    <pre class="msg" id="msg" style="display:none"></pre>
+  </div>
+
+  <footer>Hecho con la identidad oficial de SPINZI GROUP · Funciona 100% sin internet<br>
+  📱 Instalala: menú del navegador → «Instalar aplicación»</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var $=function(id){return document.getElementById(id)};
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function redondear(n){
+  if(n<=0) return 0;
+  if(n<1000) return Math.round(n/10)*10;
+  if(n<10000) return Math.round(n/100)*100;
+  if(n<100000) return Math.round(n/500)*500;
+  return Math.round(n/1000)*1000;
+}
+function precio(costo, margen, iva){
+  var sin=costo*(1+(parseFloat(margen)||0)/100);
+  var con=sin*(1+(parseFloat(iva)||0)/100);
+  return redondear(con);
+}
+var IVA=21, NEGOCIO='';
+function getLista(){return JSON.parse(localStorage.getItem('listaPrecios')||'[]')}
+function setLista(l){localStorage.setItem('listaPrecios',JSON.stringify(l))}
+function pintar(){
+  var l=getLista();
+  $('cont').textContent=l.length;
+  var el=$('lista');
+  if(!l.length){el.innerHTML='<div class="vacio">Todavía no cargaste productos. 📦</div>';$('total').textContent='0';return}
+  el.innerHTML=l.map(function(it,i){
+    var p=precio(it.costo,it.margen,IVA);
+    return '<div class="item"><div><div class="nm">'+it.nom+'</div><div class="rb">'+it.rubro+'</div></div><div style="display:flex;gap:8px;align-items:center"><span class="pr">'+fmt(p)+'</span><button onclick="borrar('+i+')" title="Quitar">✕</button></div></div>';
+  }).join('');
+  $('total').textContent=l.length;
+}
+function borrar(i){var l=getLista();l.splice(i,1);setLista(l);pintar();toast('Producto quitado')}
+function armarMensaje(){
+  var l=getLista();
+  if(!l.length){toast('Primero cargá productos');return ''}
+  var grupos={};
+  l.forEach(function(it){
+    var r=(it.rubro||'General').trim()||'General';
+    if(!grupos[r])grupos[r]=[];
+    grupos[r].push(it);
+  });
+  var m='🛒 *LISTA DE PRECIOS* '+NEGOCIO+'\n';
+  Object.keys(grupos).forEach(function(r){
+    m+='\n📦 *'+r.toUpperCase()+'*\n';
+    grupos[r].forEach(function(it){m+='• '+it.nom+' — '+fmt(precio(it.costo,it.margen,IVA))+'\n'});
+  });
+  m+='\n💰 Precios finales (IVA incl.)\n📲 Pedidos por WhatsApp';
+  return m;
+}
+$('btnAdd').onclick=function(){
+  var nom=$('nom').value.trim(), costo=parseFloat($('costo').value), margen=$('margen').value, rubro=$('rubro').value.trim();
+  if(!nom||!costo||costo<=0){toast('Completá producto y costo');return}
+  var l=getLista();
+  l.push({nom:nom,costo:costo,margen:parseFloat(margen)||0,rubro:rubro});
+  setLista(l);pintar();
+  $('nom').value='';$('costo').value='';$('rubro').value='';
+  toast('✓ '+nom+' agregado');
+};
+$('btnWA').onclick=function(){
+  var m=armarMensaje();
+  if(!m)return;
+  $('msg').textContent=m;$('msg').style.display='block';
+  toast('Mensaje armado abajo 👇');
+};
+$('btnCopiar').onclick=function(){
+  var m=armarMensaje();
+  if(!m)return;
+  navigator.clipboard.writeText(m).then(function(){toast('📋 Lista copiada')},function(){toast('📋 Copiada (abrí el visor)')});
+};
+$('btnExportar').onclick=function(){
+  var l=getLista();
+  if(!l.length){toast('Lista vacía');return}
+  var blob=new Blob([JSON.stringify({negocio:NEGOCIO,iva:IVA,lista:l},null,1)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='lista-precios-spinzi.json';a.click();
+  toast('⬇️ Lista guardada');
+};
+$('btnImportar').onclick=function(){$('fileImp').click()};
+$('fileImp').onchange=function(){
+  var f=$('fileImp').files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var d=JSON.parse(r.result);
+      if(d.lista&&Array.isArray(d.lista)){setLista(d.lista);if(d.negocio)NEGOCIO=d.negocio;if(d.iva)IVA=d.iva;pintar();toast('✓ Lista cargada ('+d.lista.length+')')}
+      else toast('Archivo no válido');
+    }catch(e){toast('Archivo no válido')}
+  };
+  r.readAsText(f);
+};
+$('btnEnviar').onclick=function(){
+  var m=armarMensaje();
+  if(!m)return;
+  var num=$('waNum').value.replace(/\D/g,'');
+  if(!num){toast('Poné el número de WhatsApp');return}
+  window.open('https://wa.me/'+num+'?text='+encodeURIComponent(m),'_blank');
+};
+document.addEventListener('keydown',function(e){if(e.key==='Enter')$('btnAdd').click()});
+var oscuro=true;
+$('btnTema').onclick=function(){
+  oscuro=!oscuro;
+  document.body.classList.toggle('light',!oscuro);
+  $('btnTema').textContent=oscuro?'🌙':'☀️';
+  localStorage.setItem('temaLista',oscuro?'oscuro':'claro');
+};
+if(localStorage.getItem('temaLista')==='claro'){$('btnTema').click()}
+pintar();
+if('serviceWorker' in navigator&&(location.protocol==='http:'||location.protocol==='https:')){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+}
+</script>
+</body>
+</html>
