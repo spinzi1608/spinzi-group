@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0E141B">
+<title>Cuotas Pendientes · SPINZI GROUP</title>
+<link rel="icon" type="image/png" href="favicon-identidad.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cuotas SPINZI">
+<link rel="apple-touch-icon" href="icon-identidad-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0E141B;--card:#16202A;--card2:#1B2A33;--text:#F2F1EC;--muted:#A9B4A4;
+  --border:rgba(174,184,150,.16);--input:rgba(255,255,255,.05);
+  --gold:#8A9249;--gold2:#ADB46C;--emerald:#285151;--emerald2:#4A6E6E;
+  --green:#34D399;--red:#EF4444;
+  --shadow:0 12px 32px rgba(0,0,0,.45);
+  --font-body:'Open Sans','Segoe UI',Arial,sans-serif;
+  --font-disp:'Montserrat','Inter','Segoe UI',sans-serif;
+}
+body.light{
+  --bg:#F2F1EC;--card:#FFF;--card2:#FAF8F2;--text:#1E242C;--muted:#50595D;
+  --border:#DDD9CC;--input:#F4F2EB;--gold:#8A9249;--gold2:#6E7736;--emerald:#285151;
+  --shadow:0 10px 26px rgba(23,34,56,.10);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;padding:18px;font-variant-numeric:tabular-nums}
+.wrap{max-width:680px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+header img{width:52px;height:52px;border-radius:12px;object-fit:contain}
+header h1{font-family:var(--font-disp);font-size:1.1rem;font-weight:800;letter-spacing:1.4px;background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header p{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+label{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
+input{width:100%;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:11px 13px;font-size:1rem;color:var(--text);font-family:var(--font-body);outline:none}
+input:focus{border-color:var(--gold)}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1E242C;border:none;border-radius:12px;padding:13px;font-size:.95rem;font-weight:800;font-family:var(--font-disp);letter-spacing:.5px;cursor:pointer;margin-top:12px}
+.btn.wa{background:linear-gradient(135deg,#34D399,#0E9F6E)}
+.btn.ghost{background:var(--card2);color:var(--gold2);border:1px solid var(--gold)}
+.btn:active{transform:scale(.98)}
+.cliente{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:13px 14px;border:1px solid var(--border);border-radius:12px;margin-top:10px}
+.cliente .nm{font-weight:800;font-size:.95rem}
+.cliente .saldo{color:var(--gold2);font-weight:800}
+.cliente .pend{font-size:.72rem;color:var(--red)}
+.cliente button{background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:0 4px}
+.cuota{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-top:7px;font-size:.85rem}
+.cuota.cobrada{opacity:.55;border-color:var(--green)}
+.cuota .num{font-weight:700}
+.cuota .fec{font-size:.72rem;color:var(--muted)}
+.cuota .val{font-weight:800;color:var(--gold2)}
+.cuota button{background:var(--green);border:none;color:#05251B;border-radius:8px;padding:6px 10px;font-size:.75rem;font-weight:800;cursor:pointer}
+.cuota.cobrada button{background:var(--card2);color:var(--muted)}
+.theme{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+.vacio{color:var(--muted);font-size:.85rem;text-align:center;padding:14px}
+footer{text-align:center;font-size:.7rem;color:var(--muted);margin-top:8px;line-height:1.7}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1E242C;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+pre.msg{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:var(--font-body);font-size:.85rem;white-space:pre-wrap;line-height:1.7;margin-top:12px;max-height:260px;overflow-y:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="favicon-identidad.png" alt="SPINZI GROUP">
+    <div>
+      <h1>CUOTAS PENDIENTES</h1>
+      <p>SPINZI GROUP · Cobranza por WhatsApp en 1 toque</p>
+    </div>
+  </header>
+  <button class="theme" id="btnTema" title="Cambiar tema">🌙</button>
+
+  <div class="card">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">➕ NUEVA CUENTA EN CUOTAS</h2>
+    <label for="cli">Cliente *</label>
+    <input id="cli" placeholder="Nombre del cliente" value="">
+    <label for="wa">WhatsApp del cliente (cód. país, ej: 54911...)</label>
+    <input id="wa" placeholder="54911..." value="">
+    <div class="row">
+      <div>
+        <label for="monto">Monto total ($) *</label>
+        <input id="monto" type="number" inputmode="decimal" placeholder="Ej: 200000" value="">
+      </div>
+      <div>
+        <label for="cuotas">Cuotas</label>
+        <input id="cuotas" type="number" inputmode="numeric" placeholder="3" value="3">
+      </div>
+    </div>
+    <button class="btn" id="btnAdd">➕ CREAR PLAN DE CUOTAS</button>
+  </div>
+
+  <div class="card">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">📋 CLIENTES (<span id="cont">0</span>)</h2>
+    <div id="lista"></div>
+    <div class="row" style="gap:10px">
+      <button class="btn wa" id="btnWA" style="margin-top:14px">📱 COBRANZA POR WHATSAPP</button>
+      <button class="btn ghost" id="btnCopiar" style="margin-top:14px">📋 COPIAR</button>
+    </div>
+    <pre class="msg" id="msg" style="display:none"></pre>
+  </div>
+
+  <footer>Hecho con la identidad oficial de SPINZI GROUP · Funciona 100% sin internet<br>
+  📱 Instalala: menú del navegador → «Instalar aplicación»</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var $=function(id){return document.getElementById(id)};
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function getD(){return JSON.parse(localStorage.getItem('cuotasSpinzi')||'[]')}
+function setD(d){localStorage.setItem('cuotasSpinzi',JSON.stringify(d))}
+function pintar(){
+  var d=getD();
+  $('cont').textContent=d.length;
+  var el=$('lista');
+  if(!d.length){el.innerHTML='<div class="vacio">Todavía no cargaste clientes. 📋</div>';return}
+  el.innerHTML=d.map(function(c,ci){
+    var pend=c.cuotas.filter(function(cu){return !cu.pagada});
+    var saldo=pend.reduce(function(s,cu){return s+cu.valor},0);
+    var rows='<div class="cliente"><div><div class="nm">'+c.nombre+'</div>'+
+      '<div class="pend">'+pend.length+' pendiente'+(pend.length===1?'':'s')+' · saldo '+fmt(saldo)+'</div></div>'+
+      '<div style="display:flex;gap:6px;align-items:center">'+
+      '<button onclick="waCliente('+ci+')" title="WhatsApp">💬</button>'+
+      '<button onclick="toggle('+ci+')" title="Ver cuotas">▾</button>'+
+      '<button onclick="borrar('+ci+')" title="Quitar">✕</button></div></div>';
+    if(c.abierto){
+      rows+=c.cuotas.map(function(cu,ii){
+        return '<div class="cuota'+(cu.pagada?' cobrada':'')+'">'+
+          '<div><div class="num">Cuota '+(ii+1)+'/'+c.cuotas.length+'</div>'+
+          '<div class="fec">Vence: '+cu.fecha+'</div></div>'+
+          '<div style="display:flex;gap:8px;align-items:center">'+
+          '<span class="val">'+fmt(cu.valor)+'</span>'+
+          '<button onclick="cobrar('+ci+','+ii+')">'+(cu.pagada?'✓ Cobrada':'💰 Cobrar')+'</button></div></div>';
+      }).join('');
+    }
+    return rows;
+  }).join('');
+}
+function borrar(ci){var d=getD();d.splice(ci,1);setD(d);pintar();toast('Cliente quitado')}
+function toggle(ci){var d=getD();d[ci].abierto=!d[ci].abierto;setD(d);pintar()}
+function cobrar(ci,ii){var d=getD();d[ci].cuotas[ii].pagada=true;d[ci].cuotas[ii].pagadaEn=new Date().toLocaleDateString('es-AR');setD(d);pintar();toast('✓ Cuota cobrada')}
+function sumarFecha(dias){
+  var f=new Date();f.setDate(f.getDate()+dias);
+  return f.toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+$('btnAdd').onclick=function(){
+  var nombre=$('cli').value.trim(), wa=$('wa').value.trim();
+  var monto=parseFloat($('monto').value), n=parseInt($('cuotas').value)||1;
+  if(!nombre||!monto||monto<=0){toast('Completá cliente y monto');return}
+  var valor=Math.round(monto/n);
+  var cuotas=[];
+  for(var i=0;i<n;i++){
+    cuotas.push({valor:(i===n-1?monto-valor*(n-1):valor),fecha:sumarFecha(7*(i+1)),pagada:false});
+  }
+  var d=getD();
+  d.push({nombre:nombre,wa:wa,cuotas:cuotas,abierto:true});
+  setD(d);pintar();
+  $('cli').value='';$('monto').value='';$('cuotas').value='3';
+  toast('✓ Plan de '+n+' cuotas creado');
+};
+function armarMensaje(cliente){
+  var pend=cliente.cuotas.filter(function(c){return !c.pagada});
+  if(!pend.length)return '';
+  var m='👋 Hola '+cliente.nombre+', te recordamos tus cuotas pendientes:\n';
+  cliente.cuotas.forEach(function(cu,ii){
+    m+=(cu.pagada?'✅':'🔴')+' Cuota '+(ii+1)+' — '+fmt(cu.valor)+' — vence '+cu.fecha+(cu.pagada?' (pagada)':'')+'\n';
+  });
+  m+='\n💰 Total pendiente: '+fmt(pend.reduce(function(s,c){return s+c.valor},0));
+  m+='\nGracias por confiar en SPINZI GROUP 🙌';
+  return m;
+}
+$('btnWA').onclick=function(){
+  var d=getD();
+  var conPend=d.filter(function(c){return c.cuotas.some(function(cu){return !cu.pagada})});
+  if(!conPend.length){toast('No hay cuotas pendientes');return}
+  var m='📋 *COBRANZA — SPINZI GROUP*\n';
+  conPend.forEach(function(c){
+    var pend=c.cuotas.filter(function(cu){return !cu.pagada});
+    var saldo=pend.reduce(function(s,cu){return s+cu.valor},0);
+    m+='\n• '+c.nombre+': '+pend.length+' cuota'+(pend.length===1?'':'s')+' ('+fmt(saldo)+')';
+  });
+  $('msg').textContent=m;$('msg').style.display='block';
+  toast('Mensaje armado 👇 (o usá 💬 por cliente)');
+};
+$('btnCopiar').onclick=function(){
+  var d=getD();
+  var conPend=d.filter(function(c){return c.cuotas.some(function(cu){return !cu.pagada})});
+  if(!conPend.length){toast('No hay cuotas pendientes');return}
+  var m='📋 *COBRANZA — SPINZI GROUP*\n';
+  conPend.forEach(function(c){
+    var pend=c.cuotas.filter(function(cu){return !cu.pagada});
+    var saldo=pend.reduce(function(s,cu){return s+cu.valor},0);
+    m+='\n• '+c.nombre+': '+pend.length+' cuota(s) ('+fmt(saldo)+')';
+  });
+  navigator.clipboard.writeText(m).then(function(){toast('📋 Copiada')},function(){toast('📋 Copiada')});
+};
+function waCliente(ci){
+  var d=getD(), c=d[ci];
+  var m=armarMensaje(c);
+  if(!m){toast('Sin cuotas pendientes');return}
+  if(!c.wa){toast('Ese cliente no tiene WhatsApp cargado');return}
+  window.open('https://wa.me/'+c.wa.replace(/\D/g,'')+'?text='+encodeURIComponent(m),'_blank');
+}
+var oscuro=true;
+$('btnTema').onclick=function(){
+  oscuro=!oscuro;
+  document.body.classList.toggle('light',!oscuro);
+  $('btnTema').textContent=oscuro?'🌙':'☀️';
+  localStorage.setItem('temaCuotas',oscuro?'oscuro':'claro');
+};
+if(localStorage.getItem('temaCuotas')==='claro'){$('btnTema').click()}
+pintar();
+if('serviceWorker' in navigator&&(location.protocol==='http:'||location.protocol==='https:')){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+}
+</script>
+</body>
+</html>
