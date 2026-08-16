@@ -131,6 +131,10 @@ function precio(costo, margen, iva){
 var IVA=21, NEGOCIO='';
 function getLista(){return JSON.parse(localStorage.getItem('listaPrecios')||'[]')}
 function setLista(l){localStorage.setItem('listaPrecios',JSON.stringify(l))}
+function toast(t){
+  var el=$('toast');el.textContent=t;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show')},1800);
+}
 function pintar(){
   var l=getLista();
   $('cont').textContent=l.length;
