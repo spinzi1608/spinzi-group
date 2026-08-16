@@ -115,6 +115,10 @@ var $=function(id){return document.getElementById(id)};
 function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR')}
 function getD(){return JSON.parse(localStorage.getItem('cuotasSpinzi')||'[]')}
 function setD(d){localStorage.setItem('cuotasSpinzi',JSON.stringify(d))}
+function toast(t){
+  var el=$('toast');el.textContent=t;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show')},1800);
+}
 function pintar(){
   var d=getD();
   $('cont').textContent=d.length;
