@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0E141B">
+<title>Gestión de Mesas · SPINZI GROUP</title>
+<link rel="icon" type="image/png" href="favicon-identidad.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mesas SPINZI">
+<link rel="apple-touch-icon" href="icon-identidad-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0E141B;--card:#16202A;--card2:#1B2A33;--text:#F2F1EC;--muted:#A9B4A4;
+  --border:rgba(174,184,150,.16);--input:rgba(255,255,255,.05);
+  --gold:#8A9249;--gold2:#ADB46C;--emerald:#285151;--emerald2:#4A6E6E;
+  --green:#34D399;--red:#EF4444;--amber:#F59E0B;
+  --shadow:0 12px 32px rgba(0,0,0,.45);
+  --font-body:'Open Sans','Segoe UI',Arial,sans-serif;
+  --font-disp:'Montserrat','Inter','Segoe UI',sans-serif;
+}
+body.light{
+  --bg:#F2F1EC;--card:#FFF;--card2:#FAF8F2;--text:#1E242C;--muted:#50595D;
+  --border:#DDD9CC;--input:#F4F2EB;--gold:#8A9249;--gold2:#6E7736;--emerald:#285151;
+  --shadow:0 10px 26px rgba(23,34,56,.10);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;padding:18px;font-variant-numeric:tabular-nums}
+.wrap{max-width:760px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+header img{width:52px;height:52px;border-radius:12px;object-fit:contain}
+header h1{font-family:var(--font-disp);font-size:1.1rem;font-weight:800;letter-spacing:1.4px;background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header p{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+label{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
+input,select,textarea{width:100%;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:11px 13px;font-size:1rem;color:var(--text);font-family:var(--font-body);outline:none}
+input:focus,select:focus{border-color:var(--gold)}
+select option{background:var(--card);color:var(--text)}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1E242C;border:none;border-radius:12px;padding:13px;font-size:.95rem;font-weight:800;font-family:var(--font-disp);letter-spacing:.5px;cursor:pointer;margin-top:12px}
+.btn.wa{background:linear-gradient(135deg,#34D399,#0E9F6E)}
+.btn.ghost{background:var(--card2);color:var(--gold2);border:1px solid var(--gold)}
+.btn.small{width:auto;display:inline-block;padding:9px 14px;font-size:.8rem;margin-top:0}
+.btn:active{transform:scale(.97)}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tab{flex:1;min-width:120px;text-align:center;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:11px;font-size:.78rem;font-weight:800;color:var(--muted);cursor:pointer;font-family:var(--font-disp);letter-spacing:.5px}
+.tab.act{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1E242C;border-color:transparent}
+.mesas{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:12px}
+.mesa{background:var(--card2);border:2px solid var(--border);border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;min-height:74px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.mesa .nm{font-family:var(--font-disp);font-weight:800;font-size:.95rem}
+.mesa .est{font-size:.62rem;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.mesa.libre{border-color:var(--emerald2)}
+.mesa.ocupada{border-color:var(--amber)}
+.mesa.cobrar{border-color:var(--red);background:rgba(239,68,68,.08)}
+.mesa.cocina{border-color:var(--gold)}
+.mesa .tot{font-size:.72rem;font-weight:800;color:var(--gold2)}
+.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
+.cat{white-space:nowrap;background:var(--card2);border:1px solid var(--border);border-radius:999px;padding:8px 16px;font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer}
+.cat.act{background:var(--gold);color:#1E242C;border-color:transparent}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.item{background:var(--card2);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.item:active{transform:scale(.97)}
+.item .foto{height:72px;background:linear-gradient(135deg,var(--emerald),var(--emerald2));display:flex;align-items:center;justify-content:center;font-size:1.6rem;position:relative}
+.item .foto .precio{position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,.75);color:var(--gold2);font-weight:800;font-size:.72rem;padding:2px 7px;border-radius:8px}
+.item .info{padding:9px 10px}
+.item .info .nm{font-weight:800;font-size:.82rem;line-height:1.25}
+.item .info .nota{font-size:.66rem;color:var(--muted);margin-top:2px}
+.item.agotado{opacity:.45;pointer-events:none}
+.listaPedido{max-height:240px;overflow-y:auto;margin-top:8px}
+.fila{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-top:7px;font-size:.86rem}
+.fila .nm{font-weight:700;flex:1}
+.fila .qty{display:flex;align-items:center;gap:7px}
+.fila .qty button{background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:8px;width:28px;height:28px;font-weight:800;cursor:pointer}
+.fila .pr{font-weight:800;color:var(--gold2);min-width:72px;text-align:right}
+.fila .del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem}
+.resumen{border-top:1px dashed var(--border);margin-top:12px;padding-top:12px}
+.linea{display:flex;justify-content:space-between;font-size:.86rem;margin-top:5px}
+.linea.total{font-family:var(--font-disp);font-weight:800;font-size:1.05rem;color:var(--gold2)}
+.theme{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+.vacio{color:var(--muted);font-size:.85rem;text-align:center;padding:14px}
+footer{text-align:center;font-size:.7rem;color:var(--muted);margin-top:8px;line-height:1.7}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1E242C;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+pre.msg{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:var(--font-body);font-size:.85rem;white-space:pre-wrap;line-height:1.7;margin-top:12px;max-height:240px;overflow-y:auto}
+.badge{display:inline-block;background:var(--red);color:#fff;border-radius:999px;padding:2px 9px;font-size:.68rem;font-weight:800;margin-left:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="favicon-identidad.png" alt="SPINZI GROUP">
+    <div>
+      <h1>GESTIÓN DE MESAS</h1>
+      <p>SPINZI GROUP · Restaurantes, bares y pizzerías</p>
+    </div>
+  </header>
+  <button class="theme" id="btnTema" title="Cambiar tema">🌙</button>
+
+  <div class="tabs">
+    <div class="tab act" id="tabSalon" onclick="vista('salon')">🪑 SALÓN</div>
+    <div class="tab" id="tabCarta" onclick="vista('carta')">📖 CARTA</div>
+    <div class="tab" id="tabCocina" onclick="vista('cocina')">👨‍🍳 COCINA <span id="badgeCocina"></span></div>
+    <div class="tab" id="tabCaja" onclick="vista('caja')">💵 CAJA</div>
+  </div>
+
+  <div id="v-salon">
+    <div class="card">
+      <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">🪑 SALÓN — <span id="mesasInfo"></span></h2>
+      <div class="mesas" id="mesas"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn ghost" id="btnNuevaMesa">➕ AGREGAR MESA</button>
+        <button class="btn ghost" id="btnQuitarMesa">➖ QUITAR MESA</button>
+      </div>
+    </div>
+    <div class="card" id="comandaCard" style="display:none">
+      <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">🧾 COMANDA <span id="comandaTitulo"></span></h2>
+      <div class="cats" id="cats"></div>
+      <div class="grid" id="itemsGrid"></div>
+      <div class="listaPedido" id="pedidoActual"></div>
+      <div class="resumen">
+        <div class="linea"><span>Subtotal</span><span id="rSub"></span></div>
+        <div class="linea"><span>Servicio 10%</span><span id="rServ"></span></div>
+        <div class="linea total"><span>TOTAL</span><span id="rTotal"></span></div>
+      </div>
+      <div class="row" style="gap:10px">
+        <button class="btn" id="btnEnviar">👨‍🍳 ENVIAR A COCINA</button>
+        <button class="btn wa" id="btnCobrar">💰 COBRAR CUENTA</button>
+      </div>
+      <button class="btn ghost" id="btnCerrarComanda" style="margin-top:8px">✕ CERRAR COMANDA (mesa libre)</button>
+      <pre class="msg" id="msgCuenta" style="display:none"></pre>
+    </div>
+  </div>
+
+  <div id="v-carta" style="display:none">
+    <div class="card">
+      <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">📖 CARTA / MENÚ</h2>
+      <label for="iNom">Item *</label>
+      <input id="iNom" placeholder="Ej: Pizza muzzarella">
+      <div class="row">
+        <div>
+          <label for="iRubro">Rubro</label>
+          <input id="iRubro" placeholder="Pizzas" value="Pizzas">
+        </div>
+        <div>
+          <label for="iPrecio">Precio ($)</label>
+          <input id="iPrecio" type="number" inputmode="decimal" placeholder="12000">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="iEmoji">Emoji</label>
+          <input id="iEmoji" placeholder="🍕" value="🍕">
+        </div>
+        <div>
+          <label for="iStock">Stock</label>
+          <input id="iStock" type="number" inputmode="numeric" placeholder="10" value="10">
+        </div>
+      </div>
+      <button class="btn" id="btnAddItem">➕ AGREGAR A LA CARTA</button>
+    </div>
+    <div class="card">
+      <div class="cats" id="catsCarta"></div>
+      <div class="grid" id="itemsAdmin"></div>
+    </div>
+  </div>
+
+  <div id="v-cocina" style="display:none">
+    <div class="card">
+      <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">👨‍🍳 COCINA (KDS)</h2>
+      <div id="cocinaLista"></div>
+    </div>
+  </div>
+
+  <div id="v-caja" style="display:none">
+    <div class="card">
+      <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">💵 CAJA DEL DÍA</h2>
+      <div class="row" style="gap:10px;margin-bottom:10px">
+        <div class="card" style="flex:1;margin:0;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--gold2)" id="cVentas">$0</div><div style="font-size:.65rem;color:var(--muted)">VENTAS</div></div>
+        <div class="card" style="flex:1;margin:0;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--green)" id="cCuentas">0</div><div style="font-size:.65rem;color:var(--muted)">CUENTAS</div></div>
+        <div class="card" style="flex:1;margin:0;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--amber)" id="cProm">$0</div><div style="font-size:.65rem;color:var(--muted)">TICKET PROM.</div></div>
+      </div>
+      <div id="ventasLista"></div>
+      <div class="tools" style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn wa" id="btnCajaWA" style="flex:1;margin-top:0">📱 RESUMEN POR WHATSAPP</button>
+        <button class="btn ghost" id="btnLimpiar" style="flex:1;margin-top:0">🗑️ RESET DEL DÍA</button>
+      </div>
+      <pre class="msg" id="msgCaja" style="display:none"></pre>
+    </div>
+  </div>
+
+  <footer>Hecho con la identidad oficial de SPINZI GROUP · POS gastronómico · Funciona 100% sin internet<br>
+  📱 Instalala: menú del navegador → «Instalar aplicación»</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var $=function(id){return document.getElementById(id)};
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function toast(t){
+  var el=$('toast');el.textContent=t;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show')},1800);
+}
+function getM(){return JSON.parse(localStorage.getItem('mesasSpinzi')||'[]')}
+function setM(d){localStorage.setItem('mesasSpinzi',JSON.stringify(d))}
+function getP(){return JSON.parse(localStorage.getItem('pedidosSpinzi')||'[]')}
+function setP(d){localStorage.setItem('pedidosSpinzi',JSON.stringify(d))}
+function getI(){return JSON.parse(localStorage.getItem('cartaSpinzi')||'[]')}
+function setI(d){localStorage.setItem('cartaSpinzi',JSON.stringify(d))}
+function getV(){return JSON.parse(localStorage.getItem('ventasSpinzi')||'[]')}
+function setV(d){localStorage.setItem('ventasSpinzi',JSON.stringify(d))}
+
+var cartaBase=[
+  {nombre:"Pizza muzzarella",rubro:"Pizzas",precio:12000,emoji:"🍕",stock:10},
+  {nombre:"Pizza napolitana",rubro:"Pizzas",precio:14000,emoji:"🍕",stock:10},
+  {nombre:"Pizza fugazzeta",rubro:"Pizzas",precio:13500,emoji:"🧀",stock:10},
+  {nombre:"Lomo completo",rubro:"Lomos",precio:16000,emoji:"🥪",stock:8},
+  {nombre:"Lomo simple",rubro:"Lomos",precio:12000,emoji:"🥪",stock:8},
+  {nombre:"Hamburguesa clásica",rubro:"Lomos",precio:11000,emoji:"🍔",stock:8},
+  {nombre:"Papas fritas",rubro:"Guarniciones",precio:6000,emoji:"🍟",stock:15},
+  {nombre:"Ensalada mixta",rubro:"Guarniciones",precio:7000,emoji:"🥗",stock:10},
+  {nombre:"Coca-Cola 1.5L",rubro:"Bebidas",precio:4000,emoji:"🥤",stock:20},
+  {nombre:"Agua 500ml",rubro:"Bebidas",precio:2500,emoji:"💧",stock:20},
+  {nombre:"Cerveza 1L",rubro:"Bebidas",precio:7000,emoji:"🍺",stock:15},
+  {nombre:"Flan con crema",rubro:"Postres",precio:5000,emoji:"🍮",stock:10},
+  {nombre:"Helado 2 bochas",rubro:"Postres",precio:4500,emoji:"🍨",stock:12},
+  {nombre:"Café",rubro:"Bebidas",precio:3000,emoji:"☕",stock:30}
+];
+
+var estado="salon", catSel="Pizzas", mesaSel=null;
+var PERM=parseFloat(localStorage.getItem('servicioSpinzi')||'10');
+
+function iniciar(){
+  if(!getM().length){
+    var mesas=[];
+    for(var i=1;i<=10;i++)mesas.push({id:i,nombre:"M"+i,sector:"Salón",estado:"libre"});
+    setM(mesas);
+  }
+  if(!getI().length)setI(cartaBase);
+  if(!localStorage.getItem('servicioSpinzi'))localStorage.setItem('servicioSpinzi','10');
+}
+function pintarMesas(){
+  var m=getM(), p=getP();
+  var libres=m.filter(function(x){return x.estado==='libre'}).length;
+  var ocup=0,cob=0;
+  m.forEach(function(x){
+    if(x.estado==='cobrar')cob++;
+    else if(x.estado==='libre'){/*noop*/}
+    else ocup++;
+  });
+  $('mesasInfo').textContent=libres+' libres · '+ocup+' ocupadas · '+cob+' por cobrar';
+  $('mesas').innerHTML=m.map(function(x){
+    var ped=p.filter(function(pd){return pd.mesaId===x.id && pd.estado!=='cobrado'});
+    var tot=ped.reduce(function(s,pd){return s+pd.total},0);
+    var cl=x.estado==='libre'?'libre':(x.estado==='cobrar'?'cobrar':'ocupada');
+    return '<div class="mesa '+cl+'" onclick="abrirMesa('+x.id+')">'+
+      '<div class="nm">'+x.nombre+'</div>'+
+      '<div class="est">'+x.estado+'</div>'+
+      (tot?'<div class="tot">'+fmt(tot)+'</div>':'')+
+      '</div>';
+  }).join('')||'<div class="vacio">Sin mesas. Agregá una. 🪑</div>';
+}
+function pintarCarta(){
+  var items=getI();
+  var rubros=[];
+  items.forEach(function(i){if(rubros.indexOf(i.rubro)<0)rubros.push(i.rubro)});
+  if(rubros.indexOf(catSel)<0&&rubros.length)catSel=rubros[0];
+  $('cats').innerHTML=rubros.map(function(r){return '<div class="cat'+(r===catSel?' act':'')+'" onclick="catSel=\''+r+'\';pintarCarta()">'+r+'</div>'}).join('')||'<div class="cat act">Pizzas</div>';
+  var filt=items.filter(function(i){return i.rubro===catSel});
+  $('itemsGrid').innerHTML=filt.map(function(i){
+    var ag=i.stock<=0;
+    var idReal=items.indexOf(i);
+    return '<div class="item'+(ag?' agotado':'')+'" onclick="agregar('+idReal+')">'+
+      '<div class="foto">'+i.emoji+'<span class="precio">'+fmt(i.precio)+'</span></div>'+
+      '<div class="info"><div class="nm">'+i.nombre+'</div>'+
+      '<div class="nota">'+(ag?'AGOTADO':(i.stock+' disponibles'))+'</div></div></div>';
+  }).join('')||'<div class="vacio">Cargá items en la pestaña CARTA 📖</div>';
+}
+function pintarCocina(){
+  var p=getP().filter(function(x){return x.estado==='cocina'||x.estado==='listo'});
+  $('badgeCocina').textContent=p.length?'('+p.length+')':'';
+  $('cocinaLista').innerHTML=p.map(function(pd){
+    return '<div class="card" style="margin-bottom:10px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px">'+
+      '<div><div style="font-weight:800">Mesa '+pd.mesaNombre+'</div>'+
+      '<div style="font-size:.68rem;color:var(--muted)">'+pd.creado+' · N°'+pd.id+'</div></div>'+
+      '<button class="btn small" style="margin:0" onclick="marcarListo('+pd.id+')">'+(pd.estado==='cocina'?'✅ MARCAR LISTO':'🍽️ SERVIR')+'</button></div>'+
+      pd.items.map(function(it){return '<div class="fila" style="margin-top:6px"><span class="nm">'+it.qty+'× '+it.nombre+'</span>'+(it.nota?'<span class="nota" style="color:var(--amber)">📝 '+it.nota+'</span>':'')+'</div>'}).join('')+
+      '</div>';
+  }).join('')||'<div class="vacio">Sin pedidos en cocina. 👨‍🍳</div>';
+}
+function pintarComanda(){
+  if(!mesaSel){$('comandaCard').style.display='none';return}
+  var m=getM().filter(function(x){return x.id===mesaSel})[0];
+  var p=getP().filter(function(pd){return pd.mesaId===mesaSel && pd.estado!=='cobrado'});
+  $('comandaCard').style.display='block';
+  $('comandaTitulo').textContent='— Mesa '+m.nombre+' ('+m.estado+')';
+  var items=p.length?p[0].items:[];
+  var sub=items.reduce(function(s,it){return s+it.precio*it.qty},0);
+  var serv=sub*PERM/100;
+  var tot=sub+serv;
+  $('rSub').textContent=fmt(sub);
+  $('rServ').textContent=fmt(serv);
+  $('rTotal').textContent=fmt(tot);
+  $('pedidoActual').innerHTML=items.length?items.map(function(it,ix){
+    return '<div class="fila"><span class="nm">'+it.nombre+'</span>'+
+      (it.nota?'<span style="font-size:.68rem;color:var(--amber)">📝 '+it.nota+'</span>':'')+
+      '<div class="qty"><button onclick="qty('+ix+',-1)">−</button><span>'+it.qty+'</span><button onclick="qty('+ix+',1)">+</button></div>'+
+      '<span class="pr">'+fmt(it.precio*it.qty)+'</span>'+
+      '<button class="del" onclick="qty('+ix+',-99)">✕</button></div>';
+  }).join(''):'<div class="vacio">Tocá un item de la carta para agregarlo 🍕</div>';
+  pintarCarta();
+}
+function vista(v){
+  estado=v;
+  ['salon','carta','cocina','caja'].forEach(function(x){
+    $('v-'+x).style.display=x===v?'block':'none';
+    $('tab'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('act',x===v);
+  });
+  if(v==='salon'){pintarMesas();pintarComanda()}
+  if(v==='carta'){pintarAdminCarta()}
+  if(v==='cocina'){pintarCocina()}
+  if(v==='caja'){pintarCaja()}
+}
+function abrirMesa(id){
+  mesaSel=id;
+  pintarMesas();pintarComanda();
+  var m=getM().filter(function(x){return x.id===id})[0];
+  if(m&&m.estado==='libre')toast('Mesa '+m.nombre+' — tocá un item para armar la comanda 🍕');
+}
+function nuevoPedido(mesaId){
+  var mesas=getM();
+  var m=mesas.filter(function(x){return x.id===mesaId})[0];
+  var pd={id:Date.now()%100000,mesaId:mesaId,mesaNombre:m?m.nombre:'?',items:[],estado:'abierto',total:0,creado:new Date().toLocaleString('es-AR')};
+  var p=getP();p.push(pd);setP(p);
+  if(m)m.estado='ocupada';
+  setM(mesas);
+  return pd;
+}
+function pedidoActivo(mesaId){
+  var p=getP().filter(function(pd){return pd.mesaId===mesaId && pd.estado!=='cobrado'});
+  return p.length?p[0]:null;
+}
+function actualizarPedido(pd){
+  var p=getP();
+  for(var i=0;i<p.length;i++){
+    if(p[i].id===pd.id){p[i]=pd;break}
+  }
+  setP(p);
+}
+function agregar(idReal){
+  if(!mesaSel){toast('Primero tocá una mesa 🪑');return}
+  var items=getI();var it=null;
+  for(var z=0;z<items.length;z++){if(z===idReal){it=items[z];break}}
+  if(!it){return}
+  if(it.stock<=0){toast(it.nombre+' agotado');return}
+  var pd=pedidoActivo(mesaSel)||nuevoPedido(mesaSel);
+  var ya=pd.items.filter(function(x){return x.nombre===it.nombre})[0];
+  if(ya){ya.qty++}else{pd.items.push({nombre:it.nombre,precio:it.precio,qty:1,nota:''})}
+  pd.total=pd.items.reduce(function(s,x){return s+x.precio*x.qty},0);
+  it.stock=it.stock-1;setI(items);actualizarPedido(pd);
+  pintarComanda();pintarMesas();
+  toast('✓ '+it.emoji+' '+it.nombre+' +1');
+}
+function qty(ix,delta){
+  var pd=pedidoActivo(mesaSel);if(!pd)return;
+  var it=pd.items[ix];if(!it)return;
+  it.qty+=delta;
+  var items=getI();
+  var carta=items.filter(function(c){return c.nombre===it.nombre})[0];
+  if(delta<0&&carta)carta.stock=carta.stock-delta;if(delta<0&&carta)carta.stock=Math.min(carta.stock,999);
+  if(delta>0&&carta){if(carta.stock<=0){toast('Sin stock');it.qty--;return}carta.stock--}
+  if(it.qty<=0)pd.items.splice(ix,1);
+  pd.total=pd.items.reduce(function(s,x){return s+x.precio*x.qty},0);
+  setI(items);actualizarPedido(pd);
+  pintarComanda();pintarMesas();
+}
+$('btnEnviar').onclick=function(){
+  var pd=pedidoActivo(mesaSel);
+  if(!pd||!pd.items.length){toast('La comanda está vacía');return}
+  pd.estado='cocina';
+  actualizarPedido(pd);
+  pintarComanda();pintarMesas();
+  toast('👨‍🍳 Enviado a cocina — N°'+pd.id);
+};
+function marcarListo(id){
+  var p=getP();
+  var pd=p.filter(function(x){return x.id===id})[0];
+  if(pd.estado==='cocina'){pd.estado='listo';toast('✅ Listo para servir')}
+  else{
+    pd.estado='servido';
+    var mesas=getM();
+    var m=mesas.filter(function(x){return x.id===pd.mesaId})[0];
+    if(m)m.estado='cobrar';
+    setM(mesas);
+    toast('🍽️ Servido — mesa lista para cobrar');
+  }
+  setP(p);pintarCocina();pintarMesas();
+}
+$('btnCobrar').onclick=function(){
+  var pd=pedidoActivo(mesaSel);
+  if(!pd||!pd.items.length){toast('No hay cuenta para cobrar');return}
+  var sub=pd.items.reduce(function(s,x){return s+x.precio*x.qty},0);
+  var serv=sub*PERM/100;
+  var tot=Math.round((sub+serv)/100)*100;
+  var m='🧾 *CUENTA — SPINZI GROUP*\nMesa '+pd.mesaNombre+' · N°'+pd.id+'\n\n';
+  pd.items.forEach(function(x){m+='• '+x.qty+'× '+x.nombre+' — '+fmt(x.precio*x.qty)+'\n'});
+  m+='\nSubtotal: '+fmt(sub)+'\nServicio ('+PERM+'%): '+fmt(serv)+'\n*TOTAL: '+fmt(tot)+'*\n\n¡Gracias por visitarnos! 🙌';
+  $('msgCuenta').textContent=m;$('msgCuenta').style.display='block';
+  toast('Cuenta armada — confirmá abajo ⬇️');
+  $('btnCobrar').textContent='✅ CONFIRMAR COBRO '+fmt(tot);
+  $('btnCobrar').onclick=function(){
+    var v=getV();v.push({id:pd.id,mesa:pd.mesaNombre,total:tot,items:pd.items.length,cuando:new Date().toLocaleString('es-AR')});setV(v);
+    pd.estado='cobrado';actualizarPedido(pd);
+    var mesas=getM();
+    var m=mesas.filter(function(x){return x.id===mesaSel})[0];
+    if(m){m.estado='libre'}
+    setM(mesas);
+    $('msgCuenta').style.display='none';
+    $('btnCobrar').textContent='💰 COBRAR CUENTA';
+    $('btnCobrar').onclick=cobrarHandler;
+    mesaSel=null;
+    pintarMesas();pintarComanda();
+    toast('✅ Cobrado '+fmt(tot)+' — mesa libre');
+  };
+};
+function cobrarHandler(){$('btnCobrar').onclick=null; /* placeholder, se redefine abajo */ }
+function resetBtnCobrar(){
+  $('btnCobrar').textContent='💰 COBRAR CUENTA';
+}
+$('btnCerrarComanda').onclick=function(){
+  if(!mesaSel)return;
+  var todos=getP();
+  var m=getM().filter(function(x){return x.id===mesaSel})[0];
+  todos.forEach(function(pd){
+    if(pd.mesaId===mesaSel && pd.estado!=='cobrado')pd.estado='cancelado';
+  });
+  setP(todos);
+  var mesas=getM();
+  mesas.forEach(function(mm){if(mm.id===mesaSel)mm.estado='libre'});
+  setM(mesas);
+  mesaSel=null;
+  pintarMesas();pintarComanda();
+  toast('Comanda cerrada — mesa libre');
+};
+$('btnNuevaMesa').onclick=function(){
+  var m=getM();
+  var max=m.reduce(function(a,x){return Math.max(a,x.id)},0);
+  m.push({id:max+1,nombre:"M"+(max+1),sector:"Salón",estado:"libre"});
+  setM(m);pintarMesas();
+  toast('➕ Mesa M'+(max+1)+' agregada');
+};
+$('btnQuitarMesa').onclick=function(){
+  var m=getM();
+  if(m.length<=1){toast('Necesitás al menos 1 mesa');return}
+  var libres=m.filter(function(x){return x.estado==='libre'});
+  if(!libres.length){toast('Liberá una mesa para quitarla');return}
+  m.splice(m.indexOf(libres[m.length-1]?libres[libres.length-1]:m[0]),1);
+  setM(m);pintarMesas();
+  toast('Mesa quitada');
+};
+
+/* ---- CARTA / ADMIN ---- */
+function pintarAdminCarta(){
+  var items=getI();
+  var rubros=[];
+  items.forEach(function(i){if(rubros.indexOf(i.rubro)<0)rubros.push(i.rubro)});
+  $('catsCarta').innerHTML=rubros.map(function(r){return '<div class="cat'+(r===catSel?' act':'')+'" onclick="catSel=\''+r+'\';pintarAdminCarta()">'+r+'</div>'}).join('');
+  var filt=items.filter(function(i){return i.rubro===catSel});
+  $('itemsAdmin').innerHTML=filt.map(function(i,ix){
+    return '<div class="item"><div class="foto">'+i.emoji+'<span class="precio">'+fmt(i.precio)+'</span></div>'+
+      '<div class="info"><div class="nm">'+i.nombre+'</div>'+
+      '<div class="nota">stock: '+i.stock+' · <span style="cursor:pointer;color:var(--red)" onclick="delItem('+ix+')">quitar ✕</span></div></div></div>';
+  }).join('')||'<div class="vacio">Sin items en este rubro</div>';
+}
+$('btnAddItem').onclick=function(){
+  var n=$('iNom').value.trim(),r=$('iRubro').value.trim()||'Otros';
+  var pr=parseFloat($('iPrecio').value),st=parseInt($('iStock').value)||0;
+  if(!n||!pr){toast('Completá nombre y precio');return}
+  var items=getI();
+  items.push({nombre:n,rubro:r,precio:pr,emoji:$('iEmoji').value||'🍽️',stock:st});
+  setI(items);
+  $('iNom').value='';$('iPrecio').value='';$('iStock').value='10';
+  pintarAdminCarta();pintarCarta();
+  toast('✓ '+n+' agregado a la carta');
+};
+function delItem(ix){
+  var items=getI();
+  var n=items[ix].nombre;
+  items.splice(ix,1);setI(items);
+  pintarAdminCarta();pintarCarta();
+  toast('Item quitado: '+n);
+}
+/* ---- CAJA ---- */
+function pintarCaja(){
+  var v=getV();
+  var hoy=new Date().toLocaleDateString('es-AR');
+  var delDia=v.filter(function(x){return x.cuando.indexOf(hoy)>=0});
+  var tot=delDia.reduce(function(s,x){return s+x.total},0);
+  var prom=delDia.length?Math.round(tot/delDia.length):0;
+  $('cVentas').textContent=fmt(tot);
+  $('cCuentas').textContent=delDia.length;
+  $('cProm').textContent=fmt(prom);
+  $('ventasLista').innerHTML=delDia.slice().reverse().map(function(x){
+    return '<div class="fila"><span class="nm">N°'+x.id+' · Mesa '+x.mesa+'</span><span style="font-size:.7rem;color:var(--muted)">'+x.cuando+'</span><span class="pr">'+fmt(x.total)+'</span></div>';
+  }).join('')||'<div class="vacio">Todavía no se cobró ninguna cuenta hoy 💵</div>';
+}
+$('btnCajaWA').onclick=function(){
+  var v=getV();
+  if(!v.length){toast('Sin ventas aún');return}
+  var hoy=new Date().toLocaleDateString('es-AR');
+  var delDia=v.filter(function(x){return x.cuando.indexOf(hoy)>=0});
+  var tot=delDia.reduce(function(s,x){return s+x.total},0);
+  var m='💵 *CIERRE DE CAJA — SPINZI GROUP*\n📅 '+hoy+'\n\n';
+  delDia.forEach(function(x){m+='• Mesa '+x.mesa+' (N°'+x.id+'): '+fmt(x.total)+'\n'});
+  m+='\n*Total del día: '+fmt(tot)+'* ('+delDia.length+' cuentas)';
+  $('msgCaja').textContent=m;$('msgCaja').style.display='block';
+  toast('Resumen armado 👇');
+};
+$('btnLimpiar').onclick=function(){
+  var v=getV();
+  var hoy=new Date().toLocaleDateString('es-AR');
+  setV(v.filter(function(x){return x.cuando.indexOf(hoy)<0}));
+  pintarCaja();
+  toast('🗑️ Ventas de hoy borradas');
+};
+var oscuro=true;
+$('btnTema').onclick=function(){
+  oscuro=!oscuro;
+  document.body.classList.toggle('light',!oscuro);
+  $('btnTema').textContent=oscuro?'🌙':'☀️';
+  localStorage.setItem('temaMesas',oscuro?'oscuro':'claro');
+};
+if(localStorage.getItem('temaMesas')==='claro'){$('btnTema').click()}
+iniciar();
+pintarMesas();
+if('serviceWorker' in navigator&&(location.protocol==='http:'||location.protocol==='https:')){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+}
+</script>
+</body>
+</html>
