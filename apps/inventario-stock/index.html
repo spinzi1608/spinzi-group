@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0E141B">
+<title>Inventario de Stock · SPINZI GROUP</title>
+<link rel="icon" type="image/png" href="favicon-identidad.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Stock SPINZI">
+<link rel="apple-touch-icon" href="icon-identidad-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0E141B;--card:#16202A;--card2:#1B2A33;--text:#F2F1EC;--muted:#A9B4A4;
+  --border:rgba(174,184,150,.16);--input:rgba(255,255,255,.05);
+  --gold:#8A9249;--gold2:#ADB46C;--emerald:#285151;--emerald2:#4A6E6E;
+  --green:#34D399;--red:#EF4444;--amber:#F59E0B;
+  --shadow:0 12px 32px rgba(0,0,0,.45);
+  --font-body:'Open Sans','Segoe UI',Arial,sans-serif;
+  --font-disp:'Montserrat','Inter','Segoe UI',sans-serif;
+}
+body.light{
+  --bg:#F2F1EC;--card:#FFF;--card2:#FAF8F2;--text:#1E242C;--muted:#50595D;
+  --border:#DDD9CC;--input:#F4F2EB;--gold:#8A9249;--gold2:#6E7736;--emerald:#285151;
+  --shadow:0 10px 26px rgba(23,34,56,.10);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;padding:18px;font-variant-numeric:tabular-nums}
+.wrap{max-width:680px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+header img{width:52px;height:52px;border-radius:12px;object-fit:contain}
+header h1{font-family:var(--font-disp);font-size:1.1rem;font-weight:800;letter-spacing:1.4px;background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header p{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+label{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
+input,select{width:100%;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:11px 13px;font-size:1rem;color:var(--text);font-family:var(--font-body);outline:none}
+input:focus,select:focus{border-color:var(--gold)}
+select option{background:var(--card);color:var(--text)}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1E242C;border:none;border-radius:12px;padding:13px;font-size:.95rem;font-weight:800;font-family:var(--font-disp);letter-spacing:.5px;cursor:pointer;margin-top:12px}
+.btn.wa{background:linear-gradient(135deg,#34D399,#0E9F6E)}
+.btn.ghost{background:var(--card2);color:var(--gold2);border:1px solid var(--gold)}
+.btn.small{width:auto;display:inline-block;padding:8px 14px;font-size:.8rem;margin-top:0}
+.btn:active{transform:scale(.98)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.stat{flex:1;min-width:130px;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+.stat .n{font-family:var(--font-disp);font-size:1.15rem;font-weight:800;color:var(--gold2)}
+.stat .l{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+.stat.bajo .n{color:var(--red)}
+.prod{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 14px;border:1px solid var(--border);border-radius:12px;margin-top:10px}
+.prod .nm{font-weight:800;font-size:.95rem}
+.prod .rubro{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.prod .stock{font-weight:800;color:var(--green);font-size:1rem}
+.prod .stock.bajo{color:var(--red)}
+.prod .stock.medio{color:var(--amber)}
+.prod .ctrl{display:flex;align-items:center;gap:8px}
+.prod .ctrl button{background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:8px;width:32px;height:32px;font-size:1.05rem;font-weight:800;cursor:pointer}
+.prod .ctrl button:active{transform:scale(.92)}
+.prod .del{background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:0 4px}
+.filtros{display:flex;gap:10px;margin-bottom:12px}
+.filtros input{flex:2}
+.filtros select{flex:1}
+.theme{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+.vacio{color:var(--muted);font-size:.85rem;text-align:center;padding:14px}
+footer{text-align:center;font-size:.7rem;color:var(--muted);margin-top:8px;line-height:1.7}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1E242C;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+pre.msg{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:var(--font-body);font-size:.85rem;white-space:pre-wrap;line-height:1.7;margin-top:12px;max-height:260px;overflow-y:auto}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tools .btn{flex:1;min-width:140px;margin-top:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="favicon-identidad.png" alt="SPINZI GROUP">
+    <div>
+      <h1>INVENTARIO DE STOCK</h1>
+      <p>SPINZI GROUP · Control y reposición en 1 toque</p>
+    </div>
+  </header>
+  <button class="theme" id="btnTema" title="Cambiar tema">🌙</button>
+
+  <div class="card">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">➕ NUEVO PRODUCTO</h2>
+    <label for="nom">Producto *</label>
+    <input id="nom" placeholder="Ej: Martillo 20 oz" value="">
+    <div class="row">
+      <div>
+        <label for="rubro">Rubro</label>
+        <input id="rubro" placeholder="Ej: Herramientas" value="">
+      </div>
+      <div>
+        <label for="minimo">Stock mínimo (alerta)</label>
+        <input id="minimo" type="number" inputmode="numeric" placeholder="5" value="5">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="stock">Stock inicial</label>
+        <input id="stock" type="number" inputmode="numeric" placeholder="20" value="20">
+      </div>
+      <div>
+        <label for="costo">Costo unit. ($)</label>
+        <input id="costo" type="number" inputmode="decimal" placeholder="8500" value="">
+      </div>
+      <div>
+        <label for="precio">Precio venta ($)</label>
+        <input id="precio" type="number" inputmode="decimal" placeholder="13500" value="">
+      </div>
+    </div>
+    <button class="btn" id="btnAdd">➕ AGREGAR PRODUCTO</button>
+  </div>
+
+  <div class="card">
+    <h2 style="font-family:var(--font-disp);font-size:.9rem;letter-spacing:1.5px;color:var(--gold)">📦 STOCK (<span id="cont">0</span>)</h2>
+    <div class="stats">
+      <div class="stat"><div class="n" id="stTotal">$0</div><div class="l">Valor inventario</div></div>
+      <div class="stat"><div class="n" id="stUni">0</div><div class="l">Unidades</div></div>
+      <div class="stat bajo"><div class="n" id="stBajo">0</div><div class="l">Stock bajo</div></div>
+    </div>
+    <div class="filtros">
+      <input id="buscar" placeholder="🔍 Buscar producto...">
+      <select id="filtroRubro"><option value="">Todos</option></select>
+    </div>
+    <div id="lista"></div>
+    <div class="tools">
+      <button class="btn wa" id="btnPedido">📱 PEDIDO DE REPOSICIÓN</button>
+      <button class="btn ghost" id="btnCopiar">📋 COPIAR RESUMEN</button>
+      <button class="btn ghost" id="btnExportar">💾 EXPORTAR</button>
+      <button class="btn ghost" id="btnImportar">📥 IMPORTAR</button>
+    </div>
+    <pre class="msg" id="msg" style="display:none"></pre>
+  </div>
+
+  <footer>Hecho con la identidad oficial de SPINZI GROUP · Funciona 100% sin internet<br>
+  📱 Instalala: menú del navegador → «Instalar aplicación»</footer>
+</div>
+<div class="toast" id="toast"></div>
+<input type="file" id="archivo" accept=".json" style="display:none">
+
+<script>
+var $=function(id){return document.getElementById(id)};
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function getD(){return JSON.parse(localStorage.getItem('stockSpinzi')||'[]')}
+function setD(d){localStorage.setItem('stockSpinzi',JSON.stringify(d))}
+function toast(t){
+  var el=$('toast');el.textContent=t;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show')},1800);
+}
+function nivel(p){
+  if(p.stock<=0)return 'bajo';
+  if(p.stock<=p.minimo)return 'bajo';
+  if(p.stock<=p.minimo*2)return 'medio';
+  return 'ok';
+}
+function nivelTxt(n){
+  if(n==='bajo')return '¡Reponer!';
+  if(n==='medio')return 'Bajo';
+  return 'OK';
+}
+function pintarRubros(){
+  var d=getD();
+  var rubros=[], sel=$('filtroRubro').value;
+  d.forEach(function(p){if(p.rubro&&rubros.indexOf(p.rubro)<0)rubros.push(p.rubro)});
+  $('filtroRubro').innerHTML='<option value="">Todos</option>'+rubros.map(function(r){return '<option'+(r===sel?' selected':'')+'>'+r+'</option>'}).join('');
+}
+function pintar(){
+  var d=getD();
+  var q=$('buscar').value.toLowerCase(), rubro=$('filtroRubro').value;
+  var filt=d.filter(function(p){return (!q||p.nombre.toLowerCase().indexOf(q)>=0)&&(!rubro||p.rubro===rubro)});
+  $('cont').textContent=filt.length;
+  var totalValor=0,totalUni=0,totalBajo=0;
+  d.forEach(function(p){
+    totalValor+=(p.stock||0)*(p.costo||0);
+    totalUni+=(p.stock||0);
+    if(nivel(p)==='bajo')totalBajo++;
+  });
+  $('stTotal').textContent=fmt(totalValor);
+  $('stUni').textContent=totalUni.toLocaleString('es-AR');
+  $('stBajo').textContent=totalBajo;
+  var el=$('lista');
+  if(!filt.length){el.innerHTML='<div class="vacio">Sin productos'+(d.length?' que coincidan':' todavía. Agregá el primero. 📦')+'</div>';return}
+  el.innerHTML=filt.map(function(p,fi){
+    var n=nivel(p);
+    var id=getD().indexOf(p);
+    return '<div class="prod"><div style="min-width:0">'+
+      '<div class="nm">'+p.nombre+'</div>'+
+      '<div class="rubro">'+(p.rubro||'Sin rubro')+' · '+(p.costo?('costo '+fmt(p.costo)):'')+(p.precio?' · venta '+fmt(p.precio):'')+'</div></div>'+
+      '<div style="display:flex;gap:10px;align-items:center">'+
+      '<div style="text-align:center"><div class="stock '+n+'">'+p.stock+'</div>'+
+      '<div class="rubro">'+nivelTxt(n)+'</div></div>'+
+      '<div class="ctrl"><button onclick="mov('+id+',-1)" title="Vender/salida">−</button>'+
+      '<button onclick="mov('+id+',1)" title="Entrada">+</button></div>'+
+      '<button class="del" onclick="borrar('+id+')" title="Quitar">✕</button></div></div>';
+  }).join('');
+}
+function mov(id,delta){
+  var d=getD();
+  d[id].stock=Math.max(0,(d[id].stock||0)+delta);
+  setD(d);pintar();
+  toast(delta>0?'✓ Entrada de 1 unidad ('+d[id].nombre+')':'✓ Salida de 1 unidad ('+d[id].nombre+')');
+}
+function borrar(id){var d=getD();var n=d[id].nombre;d.splice(id,1);setD(d);pintar();toast('Producto quitado: '+n)}
+$('btnAdd').onclick=function(){
+  var nombre=$('nom').value.trim(), rubro=$('rubro').value.trim();
+  var stock=parseInt($('stock').value)||0;
+  var minimo=parseInt($('minimo').value)||5;
+  var costo=parseFloat($('costo').value)||0;
+  var precio=parseFloat($('precio').value)||0;
+  if(!nombre){toast('Completá el nombre del producto');return}
+  var d=getD();
+  if(d.some(function(p){return p.nombre.toLowerCase()===nombre.toLowerCase()})){toast('Ese producto ya existe');return}
+  d.push({nombre:nombre,rubro:rubro,stock:stock,minimo:minimo,costo:costo,precio:precio});
+  setD(d);pintar();pintarRubros();
+  $('nom').value='';$('stock').value='20';$('minimo').value='5';$('costo').value='';$('precio').value='';
+  toast('✓ Producto agregado: '+nombre);
+};
+$('buscar').oninput=pintar;
+$('filtroRubro').onchange=pintar;
+function listaReponer(){
+  var d=getD();
+  return d.filter(function(p){return nivel(p)==='bajo'});
+}
+$('btnPedido').onclick=function(){
+  var rep=listaReponer();
+  if(!rep.length){toast('¡Todo en stock! Sin reposiciones 🎉');return}
+  var m='🛒 *PEDIDO DE REPOSICIÓN — SPINZI GROUP*\n\n';
+  rep.forEach(function(p){
+    m+='• '+p.nombre+(p.rubro?' ('+p.rubro+')':'')+': actual '+p.stock+' → reponer a '+(p.minimo*3)+' ('+(p.minimo*3-p.stock)+' u.)\n';
+  });
+  $('msg').textContent=m;$('msg').style.display='block';
+  toast('Pedido armado 👇 (copialo o enviálo por WhatsApp)');
+};
+$('btnCopiar').onclick=function(){
+  var d=getD();
+  if(!d.length){toast('No hay productos');return}
+  var m='📦 *STOCK — SPINZI GROUP*\n\n';
+  d.forEach(function(p){
+    m+='• '+p.nombre+': '+p.stock+' u. ('+nivelTxt(nivel(p))+(p.precio?' · '+fmt(p.precio):'')+')\n';
+  });
+  m+='\n💰 Valor inventario: '+fmt(d.reduce(function(s,p){return s+(p.stock||0)*(p.costo||0)},0));
+  navigator.clipboard.writeText(m).then(function(){toast('📋 Resumen copiado')},function(){toast('📋 Resumen copiado')});
+};
+$('btnExportar').onclick=function(){
+  var d=getD();
+  if(!d.length){toast('No hay productos para exportar');return}
+  var blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='inventario_spinzi_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  toast('💾 Exportado (archivo JSON)');
+};
+$('btnImportar').onclick=function(){$('archivo').click()};
+$('archivo').onchange=function(){
+  var f=$('archivo').files[0];
+  if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var arr=JSON.parse(r.result);
+      if(!Array.isArray(arr))throw 0;
+      setD(arr);pintar();pintarRubros();
+      toast('📥 Importado: '+arr.length+' productos');
+    }catch(e){toast('Archivo inválido')}
+  };
+  r.readAsText(f);
+  $('archivo').value='';
+};
+var oscuro=true;
+$('btnTema').onclick=function(){
+  oscuro=!oscuro;
+  document.body.classList.toggle('light',!oscuro);
+  $('btnTema').textContent=oscuro?'🌙':'☀️';
+  localStorage.setItem('temaStock',oscuro?'oscuro':'claro');
+};
+if(localStorage.getItem('temaStock')==='claro'){$('btnTema').click()}
+pintar();pintarRubros();
+if('serviceWorker' in navigator&&(location.protocol==='http:'||location.protocol==='https:')){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+}
+</script>
+</body>
+</html>
